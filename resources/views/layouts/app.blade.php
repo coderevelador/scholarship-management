@@ -153,7 +153,7 @@
 
 
                         <li>
-                            <a class="sidenav-item-link" href="team.html">
+                            <a class="sidenav-item-link" href="">
                                 <i class="mdi mdi-account-group"></i>
                                 <span class="nav-text">Users</span>
                             </a>
