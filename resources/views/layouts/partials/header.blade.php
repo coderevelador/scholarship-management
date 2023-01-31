@@ -19,22 +19,9 @@
 
     <!-- PLUGINS CSS STYLE -->
     <link href="{{ asset('plugins/nprogress/nprogress.css') }}" rel="stylesheet" />
-
-
-
-
     <link href="{{ asset('plugins/DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css') }}" rel="stylesheet" />
-
-
-
     <link href="{{ asset('plugins/jvectormap/jquery-jvectormap-2.0.3.css') }}" rel="stylesheet" />
-
-
-
     <link href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet" />
-
-
-
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -43,27 +30,24 @@
 
     <link href="{{ asset('plugins/toaster/toastr.min.css" rel="stylesheet') }}" />
 
-
     <!-- MONO CSS -->
     <link id="main-css-href" rel="stylesheet" href="{{ asset('css/style.css') }}" />
 
 
-
-
     <!-- FAVICON -->
     <link href="{{ asset('images/favicon.png') }}" rel="shortcut icon" />
-
-    <!--
-    HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
-  -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-    <script src="{{ asset('plugins/nprogress/nprogress.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+    {{-- Toaster --}}
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
+    <script src="{{ asset('plugins/nprogress/nprogress.js') }}"></script>
+
 </head>
 
 
