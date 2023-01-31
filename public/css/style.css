@@ -71,7 +71,7 @@ body {
   line-height: 1.5;
   color: #8a909d;
   text-align: left;
-  background-color: #f0f1f5;
+  /* background-color: #f0f1f5; */
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -397,6 +397,7 @@ h6, .h6 {
 .lead {
   font-size: 1.171875rem;
   font-weight: 300;
+  padding-bottom: 20px;
 }
 
 .display-1 {
@@ -6479,7 +6480,7 @@ button.bg-danger:focus {
 }
 
 .bg-light {
-  background-color: #f0f1f5 !important;
+  /* background-color: #f0f1f5 !important; */
 }
 
 a.bg-light:hover, a.bg-light:focus,
@@ -6519,7 +6520,7 @@ button.bg-smoke:focus {
 }
 
 .bg-white {
-  background-color: #ffffff !important;
+  background-color: #f0f1f5 !important;
 }
 
 .bg-transparent {
@@ -15176,6 +15177,7 @@ table.dataTable thead .sorting {
 /*===== BADGE =====*/
 .badge {
   text-transform: uppercase;
+  color: white;
 }
 .badge.badge-square {
   border-radius: 0px;

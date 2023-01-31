@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class UsersController extends Controller
 {
@@ -26,7 +31,8 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $roles = Role::where('name', '!=', 'Super-Admin')->get();
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -39,29 +45,27 @@ class UsersController extends Controller
      */
     public function store(User $user, StoreUserRequest $request)
     {
-        //For demo purposes only. When creating user or inviting a user
-        // you should create a generated random password and email it to the user
-        $user->create(array_merge($request->validated(), [
-            'password' => 'test'
-        ]));
+
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->username = $request->username;
+        $user->password = Hash::make($request->password);
+        $user->assignRole([$request->role]);
+        $user->image = 'user.jpg';
+        if ($request->image != '') {
+            $image_name = "user-" . time() . '.' . $request->image->extension();
+            $request->image->move(public_path('/images/user/'), $image_name);
+            $user->image = $image_name;
+        }
+
+        $user->save();
 
         return redirect()->route('users.index')
             ->withSuccess(__('User created successfully.'));
     }
 
-    /**
-     * Show user data
-     * 
-     * @param User $user
-     * 
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        return view('users.show', [
-            'user' => $user
-        ]);
-    }
+
 
     /**
      * Edit user data
@@ -70,13 +74,13 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        return view('users.edit', [
-            'user' => $user,
-            'userRole' => $user->roles->pluck('name')->toArray(),
-            'roles' => Role::latest()->get()
-        ]);
+        $user = User::find($id);
+
+        $roles = Role::all();
+        // dd($user->roles->pluck('id'));
+        return view('users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -87,12 +91,29 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update(User $user, UpdateUserRequest $request)
+    public function update($id, UpdateUserRequest $request)
     {
-        $user->update($request->validated());
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->username = $request->username;
+        $user->password = $user->password;
+        if ($request->password != '') {
+            $user->password = Hash::make($request->password);
+        }
+        $user->assignRole([$request->role]);
+        $user->image = $user->image;
+        if ($request->image != 'user.jpg') {
+            if ($request->image != '') {
+                $image_name = "user-" . time() . '.' . $request->image->extension();
+                $request->image->move(public_path('/images/user/'), $image_name);
+                $user->image = $image_name;
+            }
+        }
+
 
         $user->syncRoles($request->get('role'));
-
+        $user->save();
         return redirect()->route('users.index')
             ->withSuccess(__('User updated successfully.'));
     }
@@ -104,8 +125,9 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
+        $user = User::find($id);
         $user->delete();
 
         return redirect()->route('users.index')

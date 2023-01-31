@@ -9,7 +9,6 @@
 
         <div class="container mt-4">
             <form method="post" action="{{ route('users.update', $user->id) }}">
-                @method('patch')
                 @csrf
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
@@ -42,7 +41,7 @@
                         <option value="">Select role</option>
                         @foreach ($roles as $role)
                             <option value="{{ $role->id }}"
-                                {{ in_array($role->name, $userRole) ? 'selected' : '' }}>
+                                {{ $role->id == $user->roles->pluck('id')->first() ? 'selected' : '' }}>
                                 {{ $role->name }}</option>
                         @endforeach
                     </select>
@@ -50,11 +49,30 @@
                         <span class="text-danger text-left">{{ $errors->first('role') }}</span>
                     @endif
                 </div>
-
+                <div class="mb-3">
+                    <label for="image" class="form-label">Upload Image</label>
+                    <input type="file" name="image" id="image-input" class="form-control">
+                    @if ($errors->has('image'))
+                        <span class="text-danger text-left">{{ $errors->first('password') }}</span>
+                    @endif
+                </div>
+                <div class="mb-3">
+                    <img src="{{ asset('images/user/' . $user->image) }}" id="image-preview" alt="user-image"
+                        width="200px">
+                </div><br>
                 <button type="submit" class="btn btn-primary">Update user</button>
                 <a href="{{ route('users.index') }}" class="btn btn-default">Cancel</button>
             </form>
         </div>
 
     </div>
+    <script>
+        $(document).ready(function() {
+            $("#image-input").on("change", function() {
+                var input = this;
+                var url = URL.createObjectURL(input.files[0]);
+                $("#image-preview").attr("src", url);
+            });
+        });
+    </script>
 @endsection
