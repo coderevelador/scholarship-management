@@ -1,8 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="mb-3">Laravel 8 User Roles and Permissions Step by Step Tutorial - codeanddeploy.com</h1>
-
     <div class="bg-light p-4 rounded">
         <h1>Roles</h1>
         <div class="lead">
@@ -10,9 +8,7 @@
             <a href="{{ route('roles.create') }}" class="btn btn-primary btn-sm float-right">Add role</a>
         </div>
 
-        <div class="mt-2">
-            {{-- @include('layouts.partials.messages') --}}
-        </div>
+
 
         <table class="table table-bordered">
             <tr>
@@ -31,9 +27,11 @@
                         <a class="btn btn-primary btn-sm" href="{{ route('roles.edit', $role->id) }}">Edit</a>
                     </td>
                     <td>
-                        {{-- {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy', $role->id], 'style' => 'display:inline']) !!}
-                        {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
-                        {!! Form::close() !!} --}}
+                        <form action="{{ route('roles.destroy', $role->id) }}" method="post">
+                            @method('DELETE')
+                            @csrf
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
