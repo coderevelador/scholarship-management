@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -65,7 +66,14 @@ class UsersController extends Controller
             ->with('success', 'User created successfully.');
     }
 
+    public function show($id)
+    {
 
+        $user = User::find($id);
+        $user->hasExactRoles(Role::all());
+
+        return response()->json($user);
+    }
 
     /**
      * Edit user data
@@ -78,8 +86,8 @@ class UsersController extends Controller
     {
         $user = User::find($id);
 
-        $roles = Role::all();
-        // dd($user->roles->pluck('id'));
+        $roles = Role::where('name', '!=', 'Super-Admin')->get();
+       
         return view('users.edit', compact('user', 'roles'));
     }
 

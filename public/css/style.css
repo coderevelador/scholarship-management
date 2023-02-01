@@ -5795,6 +5795,7 @@ a.close.disabled {
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0.3rem;
   outline: 0;
+  margin-top: 15rem;
 }
 
 .modal-backdrop {
@@ -17450,3 +17451,7 @@ html[dir=rtl] .sidebar li > a .caret:before {
   font-weight: 500;
 }
 /*# sourceMappingURL=style.css.map */
+
+.user-details{
+  font-size: 20px;
+}

@@ -8,7 +8,7 @@
         </div>
 
         <div class="container mt-4">
-            <form method="post" action="{{ route('users.update', $user->id) }}">
+            <form method="post" action="{{ route('users.update', $user->id) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
