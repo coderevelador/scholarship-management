@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="mb-3">Laravel 8 User Roles and Permissions Step by Step Tutorial - codeanddeploy.com</h1>
 
     <div class="bg-light p-4 rounded">
         <h2>Permissions</h2>
@@ -10,9 +9,6 @@
             <a href="{{ route('permissions.create') }}" class="btn btn-primary btn-sm float-right">Add permissions</a>
         </div>
 
-        <div class="mt-2">
-            {{-- @include('layouts.partials.messages') --}}
-        </div>
 
         <table class="table table-striped">
             <thead>

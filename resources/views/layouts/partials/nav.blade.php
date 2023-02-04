@@ -2,10 +2,10 @@
     <div id="sidebar" class="sidebar sidebar-with-footer">
         <!-- Aplication Brand -->
         <div class="app-brand">
-            <a href="/index.html">
-                <img src="images/logo.png" alt="Mono">
-                <span class="brand-name">MONO</span>
-            </a>
+
+            <img src="images/logo.png" alt="Mono">
+            <span class="brand-name">Scholarship</span>
+
         </div>
         <!-- begin sidebar scrollbar -->
         <div class="sidebar-left" data-simplebar style="height: 100%;">
@@ -36,7 +36,6 @@
 
 
                 @auth
-
 
                     <li class="section-title">
                         User Management
@@ -1182,13 +1181,13 @@
                     <!-- User Account -->
                     <li class="dropdown user-menu">
                         <button class="dropdown-toggle nav-link" data-toggle="dropdown">
-                            <img src="images/user/user-xs-01.jpg" class="user-image rounded-circle"
-                                alt="User Image" />
-                            <span class="d-none d-lg-inline-block">John Doe</span>
+                            <img src="{{ asset('/images/user/' . Auth::user()->image) }}"
+                                class="user-image rounded-circle" alt="User Image" />
+                            <span class="d-none d-lg-inline-block">{{ Auth::user()->name }}</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right">
                             <li>
-                                <a class="dropdown-link-item" href="user-profile.html">
+                                <a class="dropdown-link-item" href="{{ route('profile.show', Auth::user()->id) }}">
                                     <i class="mdi mdi-account-outline"></i>
                                     <span class="nav-text">My Profile</span>
                                 </a>

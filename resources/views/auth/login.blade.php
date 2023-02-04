@@ -70,7 +70,7 @@
                                                     me</label>
                                             </div>
                                             @if (Route::has('password.request'))
-                                                <a class="text-color" href="{{ route('password.request') }}"> Forgot
+                                                <a class="text-color" href="{{ route('forget.password.get') }}"> Forgot
                                                     password? </a>
                                             @endif
                                         </div>

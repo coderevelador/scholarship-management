@@ -18,6 +18,14 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+
+
     public function index()
     {
         $users = User::latest()->paginate(10);
@@ -87,7 +95,7 @@ class UsersController extends Controller
         $user = User::find($id);
 
         $roles = Role::where('name', '!=', 'Super-Admin')->get();
-       
+
         return view('users.edit', compact('user', 'roles'));
     }
 
@@ -113,6 +121,7 @@ class UsersController extends Controller
         $user->image = $user->image;
         if ($request->image != 'user.jpg') {
             if ($request->image != '') {
+                unlink($user->image);
                 $image_name = "user-" . time() . '.' . $request->image->extension();
                 $request->image->move(public_path('/images/user/'), $image_name);
                 $user->image = $image_name;
