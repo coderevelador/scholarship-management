@@ -12,7 +12,7 @@
                 <div class="card-body mx-auto">
                     <div>
                         <img src="{{ asset('/images/user/' . $user->image) }}" alt="User Image" width="100px">
-                    </div>
+                    </div><br>
                     <div class="media media-sm ">
                         <div class="media-body">
                             <span class="title h3">Name: {{ $user->name }}</span>
@@ -26,7 +26,7 @@
 
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#userProfileModal"
                         data-id="{{ $user->id }}">
-                        View Profile
+                        Edit Profile
                     </button>
 
 
@@ -45,7 +45,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="update-form" action="{{ route('profile.update', $user->id) }}" method="post">
+                            <form id="update-form" action="{{ route('profile.update', $user->id) }}" method="post"
+                                enctype="multipart/form-data">
                                 @method('PUT')
                                 @csrf
                                 <div class="form-group row mb-6">
@@ -97,18 +98,19 @@
                                         <input type="text" class="form-control" name="current_password"
                                             placeholder="Current Password">
                                     </div>
+                                    @error('current_password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                @error('current_password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+
 
                                 <div class="form-group row mb-6">
                                     <label for="password" class="col-sm-4 col-lg-2 col-form-label">New Password</label>
                                     <div class="col-sm-8 col-lg-10">
-                                        <input type="text" class="form-control" id="password"
-                                            placeholder="New Password">
+                                        <input type="text" class="form-control" id="password" placeholder="New Password"
+                                            name="password">
                                     </div>
                                 </div>
                                 @error('password')
@@ -121,11 +123,11 @@
                                     <label for="confirm_password" class="col-sm-4 col-lg-2 col-form-label">Confirm
                                         Password</label>
                                     <div class="col-sm-8 col-lg-10">
-                                        <input type="text" class="form-control" name="confirm_password"
+                                        <input type="text" class="form-control" name="password_confirmation"
                                             placeholder="Confirm Password">
                                     </div>
                                 </div>
-                                @error('confirm_password')
+                                @error('password_confirmation')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
@@ -171,41 +173,43 @@
 
             var form = $(this);
             var url = form.attr('action');
-            console.log(url);
+            var formData = new FormData($(this)[0]);
+            console.log(_token: $('meta[name="csrf-token"]').attr('content'));
             $.ajax({
-                type: 'PUT',
+                type: 'PATCH',
                 url: url,
-                data: form.serialize(),
-                success: function(data) {
-                    alert(data.message);
-                    $('#userProfileModal').modal('hide');
+                data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
+                    formData: formData,
                 },
-                error: function(data) {
-                    console.log('Error:', data);
-                    // Show error message
+                async: false,
+                success: function(response) {
+                    if (response.info) {
+                        location.reload();
+                    }
+                    toastr.info(response.info);
+                },
+                cache: false,
+                contentType: true,
+                processData: false,
+                error: function(xhr, status, error) {
+                    toastr.error(xhr.responseJSON.message);
+
                 },
             });
         });
-
 
 
         // Edit User Information
-        $(document).ready(function() {
-            $(document).on('click', '#userProfileModal', function(event) {
-                var button = $(event.relatedTarget)
-                var id = button.data('id')
-                $.ajax({
-                    url: "profile/" + id + "/edit",
-                    type: 'get',
-                    success: function(data) {
-                        $('#name').val(data.user.name);
-                        $('#email').val(data.user.email);
-                    }
-                });
+        $('#userProfileModal').click(function() {
+
+            $.ajax({
+                type: 'get',
+                success: function(data) {
+
+                }
             });
         });
-
-
 
 
         // image preview
@@ -219,5 +223,38 @@
                 reader.readAsDataURL(file);
             });
         });
+
+
+        @if (Session::has('success'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.success("{{ session('success') }}");
+        @endif
+
+        @if (Session::has('error'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.error("{{ session('error') }}");
+        @endif
+
+        @if (Session::has('info'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.info("{{ session('info') }}");
+        @endif
+
+        @if (Session::has('warning'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.warning("{{ session('warning') }}");
+        @endif
     </script>
 @endsection

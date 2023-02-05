@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserProfileController extends Controller
 {
@@ -77,42 +78,51 @@ class UserProfileController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:users,email,' . $id,
-            'username' => 'required|unique:users,username,'. $id,
+            'username' => 'required|unique:users,username,' . $id,
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
-
-        if ($request->current_password != '') {
-            $request->validate([
-                'current_password' => 'required',
-                'new_password' => 'required|string|min:8|confirmed'
-            ]);
-        }
-
 
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->username = $request->username;
 
-        if (Hash::check($request->current_password, $user->password)) {
+        if ($request->current_password != '') {
+            $validator = Validator::make($request->all(), [
+                'current_password' => 'required',
+                'password' => 'required|min:8|confirmed|different:current_password'
+            ]);
+            if ($validator->fails()) {
+                return response()->json(['message' => $validator->errors()->first()], 400);
+            }
+            if (Hash::check($request->current_password, $user->password)) {
 
-            $user->password = Hash::make($request->password);
+                $user->password = Hash::make($request->password);
+            } else {
+                return response()->json(['message' => "Current Password is Mismatched"], 400);
+            }
         }
 
         $user->image = $user->image;
-        if ($request->image != 'user.jpg') {
-            if ($request->image != '') {
-                unlink($user->image);
-                $image_name = "user-" . time() . '.' . $request->image->extension();
-                $request->image->move(public_path('/images/user/'), $image_name);
-                $user->image = $image_name;
+
+        //  dd($request->file('image'));
+        if ($request->hasFile('image')) {
+            if ($user->image != 'user.jpg') {
+                unlink(public_path('/images/user/'.$user->image));
             }
+            $image_name = "user-" . time() . '.' . $request->file('image')->extension();
+            $request->image->move(public_path('/images/user/'), $image_name);
+            $user->image = $image_name;
+            // dd($image_name);
         }
 
         $user->save();
 
-        return response()->json([
-            'info' => 'User updated successfully!',
-        ], 200);
+        // return response()->json([
+        //     'info' => 'User updated successfully!',
+        // ], 200);
+
+        return redirect()->route('profile.show',$id)->with('info', 'User Updated Successfully');
     }
 
     /**

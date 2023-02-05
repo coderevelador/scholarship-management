@@ -12,6 +12,8 @@
     <!-- theme meta -->
     <meta name="theme-name" content="mono" />
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     {{-- bootstrap --}}
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
