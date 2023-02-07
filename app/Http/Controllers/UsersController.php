@@ -121,8 +121,8 @@ class UsersController extends Controller
         $user->image = $user->image;
 
         if ($request->image != '') {
-            if ($request->image != 'user.jpg') {
-                unlink($user->image);
+            if ($user->image != 'user.jpg') {
+                unlink(public_path('/images/user/'.$user->image));
             }
             $image_name = "user-" . time() . '.' . $request->image->extension();
             $request->image->move(public_path('/images/user/'), $image_name);

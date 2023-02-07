@@ -49,12 +49,14 @@
                         </a>
                         <ul class="collapse" id="email" data-parent="#sidebar-menu">
                             <div class="sub-menu">
-                                <li>
-                                    <a class="sidenav-item-link" href="{{ route('users.index') }}">
-                                        <span class="nav-text">Users</span>
-                                    </a>
-                                </li>
-
+                                @canany(['users.index', 'users.create', 'users.edit', 'users.destroy', 'users.update',
+                                    'users.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('users.index') }}">
+                                            <span class="nav-text">Users</span>
+                                        </a>
+                                    </li>
+                                @endcanany
                                 @canany(['roles.index', 'roles.create', 'roles.edit', 'roles.destroy', 'roles.update',
                                     'roles.store'])
                                     <li>
@@ -66,7 +68,38 @@
                             </div>
                         </ul>
                     </li>
+                    <li class="section-title">
+                        Basic Configuration
+                    </li>
 
+                    <li class="has-sub">
+                        <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
+                            data-target="#configuration" aria-expanded="false" aria-controls="email">
+                            <i class="fas fa-gear"></i>
+                            <span class="nav-text">Configuration</span> <b class="caret"></b>
+                        </a>
+                        <ul class="collapse" id="configuration" data-parent="#sidebar-menu">
+                            <div class="sub-menu">
+                                @canany(['school.index', 'school.create', 'school.edit', 'school.destroy',
+                                    'school.update', 'school.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('school.index') }}">
+                                            <span class="nav-text">School/College</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+
+                                @canany(['profile.index', 'profile.create', 'profile.edit', 'profile.destroy',
+                                    'profile.update', 'profile.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('profile.index') }}">
+                                            <span class="nav-text">School</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+                            </div>
+                        </ul>
+                    </li>
                 @endauth
 
 
