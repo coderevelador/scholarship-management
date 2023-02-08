@@ -92,11 +92,20 @@
                                     </li>
                                 @endcanany
 
-                                @canany(['course.index', 'course.create', 'course.edit', 'course.destroy',
-                                    'course.update', 'course.store'])
+                                @canany(['course.index', 'course.create', 'course.edit', 'course.destroy', 'course.update',
+                                    'course.store'])
                                     <li>
                                         <a class="sidenav-item-link" href="{{ route('course.index') }}">
                                             <span class="nav-text">Course/Class</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+
+                                @canany(['division.index', 'division.create', 'division.edit', 'division.destroy',
+                                    'division.update', 'division.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('division.index') }}">
+                                            <span class="nav-text">Division/Section</span>
                                         </a>
                                     </li>
                                 @endcanany
