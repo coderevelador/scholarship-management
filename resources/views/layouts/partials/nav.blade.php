@@ -91,6 +91,16 @@
                                         </a>
                                     </li>
                                 @endcanany
+
+                                @canany(['course.index', 'course.create', 'course.edit', 'course.destroy',
+                                    'course.update', 'course.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('course.index') }}">
+                                            <span class="nav-text">Course/Class</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+
                             </div>
                         </ul>
                     </li>

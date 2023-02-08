@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SchoolController;
 
@@ -58,4 +59,5 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::resource('profile', UserProfileController::class);
     Route::resource('school', SchoolController::class);
     Route::resource('department', DepartmentController::class);
+    Route::resource('course', CourseController::class);
 });

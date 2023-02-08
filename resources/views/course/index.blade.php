@@ -4,31 +4,33 @@
     <div class="card card-default card-profile">
 
         <div class="bg-light p-4 rounded">
-            <h1>Department</h1>
+            <h1>Course/Class</h1>
             <div class="lead">
-                Manage your departments here.
-                <a href="{{ route('department.create') }}" class="btn btn-primary btn-sm float-right">Add new department</a>
+                Manage your course/classs here.
+                <a href="{{ route('course.create') }}" class="btn btn-primary btn-sm float-right">Add new course/class</a>
             </div>
+
 
             <table id="productsTable" class="table table-hover table-product" style="width:100%">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Department Name</th>
+                        <th>Course/Class Name</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($department as $depart)
-                        <tr class="department-{{ $depart->id }}">
-                            <td>{{ $depart->id }}</td>
-                            <td>{{ $depart->name }}</td>
+
+                    @foreach ($course as $courses)
+                        <tr class="course-{{ $courses->id }}">
+                            <td>{{ $courses->id }}</td>
+                            <td>{{ $courses->name }}</td>
                             <td>
-                                <a href="{{ route('department.edit', $depart->id) }}" class="btn btn-info btn-sm">Edit</a>
-                                <button class="btn btn-danger btn-sm delete-department"
-                                    data-id="{{ $depart->id }}">Delete</button>
+                                <a href="{{ route('course.edit', $courses->id) }}" class="btn btn-info btn-sm">Edit</a>
+                                <button class="btn btn-danger btn-sm delete-course"
+                                    data-id="{{ $courses->id }}">Delete</button>
                             </td>
-                         
+
                         </tr>
                     @endforeach
                 </tbody>
@@ -38,8 +40,8 @@
 
     <script>
         // delete user
-        $(document).on('click', '.delete-department', function() {
-            var department_id = $(this).data('id');
+        $(document).on('click', '.delete-course', function() {
+            var course_id = $(this).data('id');
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -51,7 +53,7 @@
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url: "/department/" + department_id,
+                        url: "/course/" + course_id,
                         type: 'POST',
                         data: {
                             _method: 'delete'
@@ -60,12 +62,15 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(data) {
-                            $('.department-' + department_id).remove();
+                            $('.course-' + course_id).remove();
                             Swal.fire(
                                 'Deleted!',
-                                'The department has been deleted.',
+                                'The course has been deleted.',
                                 'success'
-                            )
+                            ).then((result) => {
+                                // Reload the Page
+                                location.reload();
+                            });
 
                         }
                     });
