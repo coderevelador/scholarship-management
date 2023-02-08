@@ -22,18 +22,12 @@
                 </li>
 
 
-
-
-
                 <li>
                     <a class="sidenav-item-link" href="analytics.html">
                         <i class="mdi mdi-chart-line"></i>
                         <span class="nav-text">Analytics Dashboard</span>
                     </a>
                 </li>
-
-
-
 
                 @auth
 
@@ -80,8 +74,8 @@
                         </a>
                         <ul class="collapse" id="configuration" data-parent="#sidebar-menu">
                             <div class="sub-menu">
-                                @canany(['school.index', 'school.create', 'school.edit', 'school.destroy',
-                                    'school.update', 'school.store'])
+                                @canany(['school.index', 'school.create', 'school.edit', 'school.destroy', 'school.update',
+                                    'school.store'])
                                     <li>
                                         <a class="sidenav-item-link" href="{{ route('school.index') }}">
                                             <span class="nav-text">School/College</span>
@@ -89,11 +83,11 @@
                                     </li>
                                 @endcanany
 
-                                @canany(['profile.index', 'profile.create', 'profile.edit', 'profile.destroy',
-                                    'profile.update', 'profile.store'])
+                                @canany(['department.index', 'department.create', 'department.edit', 'department.destroy',
+                                    'department.update', 'department.store'])
                                     <li>
-                                        <a class="sidenav-item-link" href="{{ route('profile.index') }}">
-                                            <span class="nav-text">School</span>
+                                        <a class="sidenav-item-link" href="{{ route('department.index') }}">
+                                            <span class="nav-text">Department</span>
                                         </a>
                                     </li>
                                 @endcanany

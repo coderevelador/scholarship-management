@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\SchoolController;
 
 /*
@@ -53,7 +54,8 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::post('/users/update/{id}', [UsersController::class, 'update'])->name('users.update');
     Route::get('/users/delete/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
 
-  
+
     Route::resource('profile', UserProfileController::class);
     Route::resource('school', SchoolController::class);
+    Route::resource('department', DepartmentController::class);
 });

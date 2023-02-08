@@ -10,7 +10,7 @@
                 <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right">Add new user</a>
             </div>
 
-            <table id="productsTable" class="table table-hover table-product" style="width:100%">
+            <table id="" class="table table-hover table-product" style="width:100%">
                 <thead>
                     <tr>
                         <th>#</th>
