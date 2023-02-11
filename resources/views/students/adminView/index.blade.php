@@ -4,10 +4,9 @@
     <div class="card card-default card-profile">
 
         <div class="bg-light p-4 rounded">
-            <h1>Users</h1>
+            <h1>Students</h1>
             <div class="lead">
-                Manage your users here.
-                <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right">Add new user</a>
+                Manage your students here.
             </div>
 
             <table id="productsTable" class="table table-hover table-product" style="width:100%">
@@ -24,31 +23,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($users as $user)
-                        @if (!$user->hasRole('Super-Admin') && !$user->hasRole('Student'))
-                            <tr class="user-{{ $user->id }}">
-                                <th scope="row">{{ $user->id }}</th>
-                                <td class="py-0">
-                                    <img src="{{ asset('/images/user/' . $user->image) }}" alt="Product Image">
-                                </td>
-                                <td>{{ $user->username }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>
-                                    @foreach ($user->roles as $role)
-                                        <span class="badge bg-primary">{{ $role->name }}</span>
-                                    @endforeach
-                                </td>
-                                <td> <button class="btn btn-primary btn-sm view-page"
-                                        data-url="/users/show/{{ $user->id }}">View</button></td>
-                                <td>
-                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-info btn-sm">Edit</a>
-                                    <button class="btn btn-danger btn-sm delete-user"
-                                        data-id="{{ $user->id }}">Delete</button>
-                                </td>
+                    @foreach ($students as $student)
+                        <tr class="students-{{ $student->id }}">
+                            <th scope="row">{{ $student->id }}</th>
+                            <td class="py-0">
+                                <img src="{{ asset('/images/user/' . $student->image) }}" alt="Product Image">
+                            </td>
+                            <td>{{ $student->username }}</td>
+                            <td>{{ $student->name }}</td>
+                            <td>{{ $student->email }}</td>
+                            <td>
+                                <span class="badge bg-primary">{{ $student->roles[0]->name }}</span>
+                            </td>
+                            <td> <button class="btn btn-primary btn-sm view-page"
+                                    data-url="/students/{{ $student->id }}">View</button></td>
+                            <td>
+                                <a href="{{ route('students.edit', $student->id) }}" class="btn btn-info btn-sm">Edit</a>
+                                <button class="btn btn-danger btn-sm delete-students"
+                                    data-id="{{ $student->id }}">Delete</button>
+                            </td>
 
-                            </tr>
-                        @endif
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -59,7 +54,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content user-show">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">User Details</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Student Details</h5>
                         </div>
                         <div class="modal-body">
 
@@ -91,7 +86,7 @@
                     var html =
                         '<div class="container user-details mt-4">' +
                         '<div>' +
-                        '<b>Name:</b>     ' + response.name +
+                        '<b>Student Name:</b>     ' + response.name +
                         '</div>' +
                         '<div>' +
                         '<b>Email:</b>    ' + response.email +
@@ -108,8 +103,6 @@
                         '</div>' +
                         '</div>'
 
-
-
                     $('#view-modal .modal-body').html(html);
                     $('#view-modal').modal('show');
                 }
@@ -118,7 +111,7 @@
 
 
         // delete user
-        $(document).on('click', '.delete-user', function() {
+        $(document).on('click', '.delete-students', function() {
             var user_id = $(this).data('id');
 
             Swal.fire({
@@ -132,15 +125,25 @@
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url: '/users/delete/' + user_id,
-                        type: 'GET',
+                        url: "/students/" + user_id,
+                        type: 'POST',
+                        data: {
+                            _method: 'delete'
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         success: function(data) {
-                            $('.user-' + user_id).remove();
+                            $('.students-' + user_id).remove();
                             Swal.fire(
                                 'Deleted!',
-                                'The user has been deleted.',
+                                'The division has been deleted.',
                                 'success'
-                            )
+                            ).then((result) => {
+                                // Reload the Page
+                                location.reload();
+                            });
+
                         }
                     });
                 }

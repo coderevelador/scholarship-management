@@ -14,6 +14,13 @@
         <link id="main-css-href" rel="stylesheet" href="{{ asset('css/style.css') }}" />
         <!-- FAVICON -->
         <link href="{{ asset('images/favicon.png') }}" rel="shortcut icon" />
+        <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+        {{-- Toaster --}}
+        <link rel="stylesheet" type="text/css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     </head>
 </head>
 
@@ -78,7 +85,8 @@
                                         <button type="submit" class="btn btn-primary btn-pill mb-4">Sign In</button>
 
                                         <p>Don't have an account yet ?
-                                            <a class="text-blue" href="{{ route('register') }}">Sign Up</a>
+                                            <a class="text-blue" href="{{ route('student-registration.index') }}">Sign
+                                                Up</a>
                                         </p>
                                     </div>
                                 </div>
@@ -89,7 +97,44 @@
             </div>
         </div>
     </div>
+    <script>
+        @if (Session::has('success'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.success("{{ session('success') }}");
+        @endif
 
+        @if (Session::has('error'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.error("{{ session('error') }}");
+        @endif
+
+        @if (Session::has('info'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.info("{{ session('info') }}");
+        @endif
+
+        @if (Session::has('warning'))
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true
+            }
+            toastr.warning("{{ session('warning') }}");
+        @endif
+    </script>
 </body>
 
 </html>
+<style>
+    body {
+        background-color: #f0f1f5;
+    }
+</style>

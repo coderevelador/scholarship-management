@@ -1,19 +1,22 @@
 <?php
 
+use App\Models\Division;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\students\StudentsController;
+
+use App\Http\Controllers\students\StudentRegistration;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\DivisionController;
-use App\Http\Controllers\SchoolController;
-use App\Models\Division;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,4 +66,12 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::resource('department', DepartmentController::class);
     Route::resource('course', CourseController::class);
     Route::resource('division', DivisionController::class);
+    Route::resource('students', StudentsController::class);
+});
+
+// Guest
+
+Route::group(['middleware' => 'guest'], function () {
+
+    Route::resource('student-registration', StudentRegistration::class);
 });

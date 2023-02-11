@@ -30,38 +30,48 @@
                 </li>
 
                 @auth
+                    @canany(['users.index', 'roles.index'])
+                        <li class="section-title">
+                            User Management
+                        </li>
 
-                    <li class="section-title">
-                        User Management
-                    </li>
-
-                    <li class="has-sub">
-                        <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#email"
-                            aria-expanded="false" aria-controls="email">
-                            <i class="fas fa-users-line"></i>
-                            <span class="nav-text">Users</span> <b class="caret"></b>
-                        </a>
-                        <ul class="collapse" id="email" data-parent="#sidebar-menu">
-                            <div class="sub-menu">
-                                @canany(['users.index', 'users.create', 'users.edit', 'users.destroy', 'users.update',
-                                    'users.store'])
-                                    <li>
-                                        <a class="sidenav-item-link" href="{{ route('users.index') }}">
-                                            <span class="nav-text">Users</span>
-                                        </a>
-                                    </li>
-                                @endcanany
-                                @canany(['roles.index', 'roles.create', 'roles.edit', 'roles.destroy', 'roles.update',
-                                    'roles.store'])
-                                    <li>
-                                        <a class="sidenav-item-link" href="{{ route('roles.index') }}">
-                                            <span class="nav-text">Roles</span>
-                                        </a>
-                                    </li>
-                                @endcanany
-                            </div>
-                        </ul>
-                    </li>
+                        <li class="has-sub">
+                            <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse" data-target="#email"
+                                aria-expanded="false" aria-controls="email">
+                                <i class="fas fa-users-line"></i>
+                                <span class="nav-text">Users</span> <b class="caret"></b>
+                            </a>
+                            <ul class="collapse" id="email" data-parent="#sidebar-menu">
+                                <div class="sub-menu">
+                                    @canany(['users.index', 'users.create', 'users.edit', 'users.destroy', 'users.update',
+                                        'users.store'])
+                                        <li>
+                                            <a class="sidenav-item-link" href="{{ route('users.index') }}">
+                                                <span class="nav-text">Users</span>
+                                            </a>
+                                        </li>
+                                    @endcanany
+                                    @canany(['roles.index', 'roles.create', 'roles.edit', 'roles.destroy', 'roles.update',
+                                        'roles.store'])
+                                        <li>
+                                            <a class="sidenav-item-link" href="{{ route('roles.index') }}">
+                                                <span class="nav-text">Roles</span>
+                                            </a>
+                                        </li>
+                                    @endcanany
+                                </div>
+                            </ul>
+                        </li>
+                        @canany(['students.index', 'students.create', 'students.edit', 'students.destroy', 'students.update',
+                                        'students.store'])
+                        <li>
+                            <a class="sidenav-item-link" href="{{ route('students.index') }}">
+                                <i class="fa fa-graduation-cap"></i>
+                                <span class="nav-text">Students</span>
+                            </a>
+                        </li>
+                        @endcanany
+                    @endcanany
                     <li class="section-title">
                         Basic Configuration
                     </li>
