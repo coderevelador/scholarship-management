@@ -78,8 +78,8 @@
                             Scholarship Management
                         </li>
 
-                        @canany(['scholarship-list.index', 'scholarship-list.create', 'scholarship-list.edit', 'scholarship-list.destroy', 'scholarship-list.update',
-                            'scholarship-list.store'])
+                        @canany(['scholarship-list.index', 'scholarship-list.create', 'scholarship-list.edit',
+                            'scholarship-list.destroy', 'scholarship-list.update', 'scholarship-list.store'])
                             <li>
                                 <a class="sidenav-item-link" href="{{ route('scholarship-list.index') }}">
                                     <i class="fa-sharp fa-solid fa-layer-group"></i>
@@ -101,6 +101,14 @@
                         </a>
                         <ul class="collapse" id="configuration" data-parent="#sidebar-menu">
                             <div class="sub-menu">
+                                @canany(['academic-year.index', 'academic-year.create', 'academic-year.edit',
+                                    'academic-year.destroy', 'academic-year.update', 'academic-year.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('academic-year.index') }}">
+                                            <span class="nav-text">Academic Year</span>
+                                        </a>
+                                    </li>
+                                @endcanany
                                 @canany(['school.index', 'school.create', 'school.edit', 'school.destroy', 'school.update',
                                     'school.store'])
                                     <li>
