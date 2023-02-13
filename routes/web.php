@@ -17,6 +17,7 @@ use App\Http\Controllers\students\StudentsController;
 
 use App\Http\Controllers\students\StudentRegistration;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\ScholarshipListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::resource('course', CourseController::class);
     Route::resource('division', DivisionController::class);
     Route::resource('students', StudentsController::class);
+    Route::resource('scholarship-list', ScholarshipListController::class);
 });
 
 // Guest

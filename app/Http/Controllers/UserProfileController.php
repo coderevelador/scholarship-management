@@ -79,7 +79,6 @@ class UserProfileController extends Controller
             'name' => 'required',
             'email' => 'required|email:rfc,dns|unique:users,email,' . $id,
             'username' => 'required|unique:users,username,' . $id,
-            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
         $user = User::find($id);
@@ -105,10 +104,10 @@ class UserProfileController extends Controller
 
         $user->image = $user->image;
 
-        //  dd($request->file('image'));
+        // dd($request->image);
         if ($request->hasFile('image')) {
             if ($user->image != 'user.jpg') {
-                unlink(public_path('/images/user/'.$user->image));
+                unlink(public_path('/images/user/' . $user->image));
             }
             $image_name = "user-" . time() . '.' . $request->file('image')->extension();
             $request->image->move(public_path('/images/user/'), $image_name);
@@ -118,11 +117,8 @@ class UserProfileController extends Controller
 
         $user->save();
 
-        // return response()->json([
-        //     'info' => 'User updated successfully!',
-        // ], 200);
-
-        return redirect()->route('profile.show',$id)->with('info', 'User Updated Successfully');
+        
+        return redirect()->back()->with('success', 'User Updated Successfully');
     }
 
     /**

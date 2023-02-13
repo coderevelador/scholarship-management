@@ -136,16 +136,17 @@
                                 <div class="form-group row mb-6">
                                     <label for="image" class="col-sm-4 col-lg-2 col-form-label">Image</label>
                                     <div class="col-sm-8 col-lg-10">
-                                        <input type="file" class="form-control" id="image" name="image"> <br>
+                                        <input type="file" class="form-control" id="image-input" name="image"> <br>
                                         <img src="{{ asset('/images/user/' . $user->image) }}" id="preview-image"
                                             alt="Image" width="100px">
                                     </div>
+                                    @error('image')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </div>
-                                @error('image')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+
 
                         </div>
                         <div class="modal-footer">
@@ -170,27 +171,34 @@
 
         $(document).on('submit', '#update-form', function(e) {
             e.preventDefault();
-
+            var token = $('meta[name="csrf-token"]').attr('content');
             var form = $(this);
             var url = form.attr('action');
-            var formData = new FormData($(this)[0]);
-            console.log(_token: $('meta[name="csrf-token"]').attr('content'));
+            var formData = new FormData(form[0]);
+            // Add the image file to the form data
+            var image = $('#image-input').prop('files')[0];
+            formData.append('image', image);
+           
             $.ajax({
-                type: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': token
+                }
+                method: 'PUT',
                 url: url,
                 data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
+
                     formData: formData,
                 },
-                async: false,
+
                 success: function(response) {
                     if (response.info) {
-                        location.reload();
+                        toastr.info(response.info);
                     }
                     toastr.info(response.info);
                 },
+
                 cache: false,
-                contentType: true,
+                contentType: false,
                 processData: false,
                 error: function(xhr, status, error) {
                     toastr.error(xhr.responseJSON.message);

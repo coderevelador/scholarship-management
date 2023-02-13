@@ -63,15 +63,32 @@
                             </ul>
                         </li>
                         @canany(['students.index', 'students.create', 'students.edit', 'students.destroy', 'students.update',
-                                        'students.store'])
-                        <li>
-                            <a class="sidenav-item-link" href="{{ route('students.index') }}">
-                                <i class="fa fa-graduation-cap"></i>
-                                <span class="nav-text">Students</span>
-                            </a>
-                        </li>
+                            'students.store'])
+                            <li>
+                                <a class="sidenav-item-link" href="{{ route('students.index') }}">
+                                    <i class="fa fa-graduation-cap"></i>
+                                    <span class="nav-text">Students</span>
+                                </a>
+                            </li>
                         @endcanany
                     @endcanany
+                    {{-- scholarship --}}
+                    @canany(['scholarship-list.index', 'roles.index'])
+                        <li class="section-title">
+                            Scholarship Management
+                        </li>
+
+                        @canany(['scholarship-list.index', 'scholarship-list.create', 'scholarship-list.edit', 'scholarship-list.destroy', 'scholarship-list.update',
+                            'scholarship-list.store'])
+                            <li>
+                                <a class="sidenav-item-link" href="{{ route('scholarship-list.index') }}">
+                                    <i class="fa-sharp fa-solid fa-layer-group"></i>
+                                    <span class="nav-text">Scholarship List</span>
+                                </a>
+                            </li>
+                        @endcanany
+                    @endcanany
+
                     <li class="section-title">
                         Basic Configuration
                     </li>
@@ -916,7 +933,7 @@
                 <span class="sr-only">Toggle navigation</span>
             </button>
 
-            <span class="page-title">dashboard</span>
+            {{-- <span class="page-title">dashboard</span> --}}
 
             <div class="navbar-right ">
 
