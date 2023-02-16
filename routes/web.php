@@ -18,6 +18,7 @@ use App\Http\Controllers\students\StudentsController;
 
 use App\Http\Controllers\students\StudentRegistration;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\EligibilityCheckController;
 use App\Http\Controllers\ScholarshipListController;
 
 /*
@@ -71,6 +72,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::resource('students', StudentsController::class);
     Route::resource('scholarship-list', ScholarshipListController::class);
     Route::resource('academic-year', AcademicYearController::class);
+    Route::resource('eligibility', EligibilityCheckController::class);
 });
 
 // Guest

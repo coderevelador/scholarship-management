@@ -24,6 +24,9 @@
                             <label for="" class="form-label">Academic Year</label>
                             <select name="year" id="" required class="form-control">
                                 <option value="">Select Year</option>
+                                @foreach ($year as $years)
+                                    <option value="{{ $years->id }}">{{ $years->year }}</option>
+                                @endforeach
                             </select>
                             @if ($errors->has('year'))
                                 <span class="text-danger text-left">{{ $errors->first('year') }}</span>

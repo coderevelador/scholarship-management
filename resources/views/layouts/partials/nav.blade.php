@@ -144,6 +144,14 @@
                                         </a>
                                     </li>
                                 @endcanany
+                                @canany(['eligibility.index', 'eligibility.create', 'eligibility.edit',
+                                    'eligibility.destroy', 'eligibility.update', 'eligibility.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('eligibility.index') }}">
+                                            <span class="nav-text">Eligibility Checker</span>
+                                        </a>
+                                    </li>
+                                @endcanany
 
                             </div>
                         </ul>

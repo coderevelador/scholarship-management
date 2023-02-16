@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicYear;
 use App\Models\Course;
 use App\Models\Department;
 use App\Models\Division;
@@ -31,8 +32,9 @@ class ScholarshipListController extends Controller
         $departments  = Department::all();
         $courses = Course::all();
         $divisions = Division::all();
+        $year = AcademicYear::all();
 
-        return view('scholarship-list.create', compact('schools', 'departments', 'courses', 'divisions'));
+        return view('scholarship-list.create', compact('schools', 'departments', 'courses', 'divisions', 'year'));
     }
 
     /**
