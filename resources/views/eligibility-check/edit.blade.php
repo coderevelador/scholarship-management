@@ -3,7 +3,7 @@
 @section('content')
     <div class="card card-default card-profile">
         <div class="bg-light p-4 rounded">
-            <h1>Add Eligibility</h1>
+            <h1>Update Eligibility</h1>
             <div class="lead">
                 Enter your eligibility details
             </div>
@@ -93,7 +93,7 @@
                         </table>
 
                     </div><br>
-                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                     <a href="{{ route('eligibility.index') }}" class="btn btn-default">Back</a>
                 </form>
             </div>

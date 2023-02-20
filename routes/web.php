@@ -71,6 +71,8 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::resource('division', DivisionController::class);
     Route::resource('students', StudentsController::class);
     Route::resource('scholarship-list', ScholarshipListController::class);
+    Route::get('/scholarship-list/disable/{id}', [ScholarshipListController::class, 'disableStudentList'])->name('disable.studentlist');
+
     Route::resource('academic-year', AcademicYearController::class);
     Route::resource('eligibility', EligibilityCheckController::class);
 });
