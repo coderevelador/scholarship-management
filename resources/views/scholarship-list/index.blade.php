@@ -19,30 +19,48 @@
                                 height="230px">
                             <div class="card-body">
                                 <h5 class="card-title ">{{ $scholarshiplist->name }}</h5>
-                                <p class="card-text pb-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do
-                                    eiusmod
-                                    tempor </p>
-                                <a href="#" class="btn btn-outline-info btn-pill mt-2"
-                                    style="width: 110px;
-                        display: inline-block;">Show</a>
-                                <a href="{{ route('scholarship-list.edit', $scholarshiplist->id) }}"
-                                    class="btn btn-outline-primary btn-pill mt-2"
-                                    style="width: 110px;
-                        display: inline-block;">Edit</a>
-                                @if ($scholarshiplist->status == 0)
-                                    <a href="{{ route('disable.studentlist', $scholarshiplist->id) }}"
-                                        class="btn btn-outline-secondary btn-pill mt-2 "
-                                        style="width: 110px;display: inline-block;">Disable</a>
-                                @else
-                                    <a href="{{ route('disable.studentlist', $scholarshiplist->id) }}"
-                                        class="btn btn-outline-success btn-pill mt-2 "
-                                        style="width: 110px; display: inline-block;">Enable</a>
-                                @endif
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <p>{{ $scholarshiplist->yearname->year }}</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>{{ $scholarshiplist->department->name }}</p>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <p>{{ $scholarshiplist->course->name }}</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <a href="#" class="btn btn-outline-info btn-pill mt-2"
+                                            style="width: 110px; display: inline-block;">Show</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="{{ route('scholarship-list.edit', $scholarshiplist->id) }}"
+                                            class="btn btn-outline-primary btn-pill mt-2"
+                                            style="width: 110px;  display: inline-block;">Edit</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        @if ($scholarshiplist->status == 0)
+                                            <a href="{{ route('disable.studentlist', $scholarshiplist->id) }}"
+                                                class="btn btn-outline-secondary btn-pill mt-2 "
+                                                style="width: 110px;display: inline-block;">Disable</a>
+                                        @else
+                                            <a href="{{ route('disable.studentlist', $scholarshiplist->id) }}"
+                                                class="btn btn-outline-success btn-pill mt-2 "
+                                                style="width: 110px; display: inline-block;">Enable</a>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-outline-danger btn-pill mt-2 delete-schoalrshiplist"
+                                            style="width: 110px; display: inline-block;"
+                                            data-id="{{ $scholarshiplist->id }}">Delete</button>
+                                    </div>
 
-                                <button class="btn btn-outline-danger btn-pill mt-2 delete-schoalrshiplist"
-                                    style="width: 110px;
-                    display: inline-block;"
-                                    data-id="{{ $scholarshiplist->id }}">Delete</button>
+                                    <p style="text-align: center; padding-top:10px;margin-bottom:-20px;">
+                                        Deadline: {{ $scholarshiplist->deadline }}</p>
+                                </div>
                             </div>
                         </div>
 

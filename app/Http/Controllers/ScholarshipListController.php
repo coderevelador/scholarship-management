@@ -169,6 +169,10 @@ class ScholarshipListController extends Controller
     public function destroy($id)
     {
         $scholarship_list = ScholarshipList::find($id);
+
+            if ($scholarship_list->cover_image != 'scholarship_list.jpg') {
+                unlink(public_path('/images/scholarship_list/'. $scholarship_list->cover_image));
+            }
         $scholarship_list->delete();
 
         return redirect()->route('scholarship-list.index')->with('error', 'Scholarship List Deleetd Successfully');
