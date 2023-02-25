@@ -73,7 +73,7 @@
                         @endcanany
                     @endcanany
                     {{-- scholarship --}}
-                    @canany(['scholarship-list.index', 'roles.index'])
+                    @canany(['scholarship-list.index'])
                         <li class="section-title">
                             Scholarship Management
                         </li>
@@ -88,17 +88,19 @@
                             </li>
                         @endcanany
                     @endcanany
+                    @canany(['academic-year.index', 'school.index', 'department.index', 'course.index', 'division.index',
+                        'eligibility.index'])
+                        <li class="section-title">
+                            Basic Configuration
+                        </li>
 
-                    <li class="section-title">
-                        Basic Configuration
-                    </li>
-
-                    <li class="has-sub">
-                        <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
-                            data-target="#configuration" aria-expanded="false" aria-controls="email">
-                            <i class="fas fa-gear"></i>
-                            <span class="nav-text">Configuration</span> <b class="caret"></b>
-                        </a>
+                        <li class="has-sub">
+                            <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
+                                data-target="#configuration" aria-expanded="false" aria-controls="email">
+                                <i class="fas fa-gear"></i>
+                                <span class="nav-text">Configuration</span> <b class="caret"></b>
+                            </a>
+                        @endcanany
                         <ul class="collapse" id="configuration" data-parent="#sidebar-menu">
                             <div class="sub-menu">
                                 @canany(['academic-year.index', 'academic-year.create', 'academic-year.edit',
@@ -157,18 +159,14 @@
                         </ul>
                     </li>
                 @endauth
-
-
-                <li>
-                    <a class="sidenav-item-link" href="chat.html">
-                        <i class="mdi mdi-wechat"></i>
-                        <span class="nav-text">Chat</span>
-                    </a>
-                </li>
-
-
-
-
+                @role('Student')
+                    <li>
+                        <a class="sidenav-item-link" href="{{ route('student.education') }}">
+                            <i class="fas fa-book-reader"></i>
+                            <span class="nav-text">Educational Details</span>
+                        </a>
+                    </li>
+                @endrole
 
                 <li>
                     <a class="sidenav-item-link" href="contacts.html">
@@ -937,8 +935,8 @@
 
 
 <!-- ====================================
-——— PAGE WRAPPER
-===================================== -->
+    ——— PAGE WRAPPER
+    ===================================== -->
 <div class="page-wrapper">
 
     <!-- Header -->

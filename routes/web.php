@@ -15,11 +15,11 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\PermissionsController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\students\StudentsController;
-
 use App\Http\Controllers\students\StudentRegistration;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\EligibilityCheckController;
 use App\Http\Controllers\ScholarshipListController;
+use App\Http\Controllers\StudentEducationalProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +75,13 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 
     Route::resource('academic-year', AcademicYearController::class);
     Route::resource('eligibility', EligibilityCheckController::class);
+
+    // students section
+
+    Route::get('/educational-details', [StudentEducationalProfileController::class, 'index'])->name('student.education');
+    Route::get('/educational-details/add', [StudentEducationalProfileController::class, 'add'])->name('student.education.add');
+    Route::get('/educational-details/edit/{id}', [StudentEducationalProfileController::class, 'edit'])->name('student.education.edit');
+    Route::post('/educational-details/store', [StudentEducationalProfileController::class, 'store'])->name('student.education.store');
 });
 
 // Guest
