@@ -82,6 +82,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::get('/educational-details/add', [StudentEducationalProfileController::class, 'add'])->name('student.education.add');
     Route::get('/educational-details/edit/{id}', [StudentEducationalProfileController::class, 'edit'])->name('student.education.edit');
     Route::post('/educational-details/store', [StudentEducationalProfileController::class, 'store'])->name('student.education.store');
+    Route::post('/educational-details/update/{id}', [StudentEducationalProfileController::class, 'update'])->name('student.education.update');
 });
 
 // Guest

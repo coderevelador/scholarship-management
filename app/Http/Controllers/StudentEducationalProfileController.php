@@ -39,4 +39,19 @@ class StudentEducationalProfileController extends Controller
 
         return redirect()->route('student.education')->with('success', 'Education Added Successfully');
     }
+
+    public function update(Request $request, $id)
+    {
+        $education = StudentEducationalDetails::find($id);
+        $student_id = Auth::user()->id;
+        $education->student_id = $student_id;
+        $education->year_id = $request->year_id;
+        $education->department_id = $request->department_id;
+        $education->course_id = $request->course_id;
+        $education->division_id = $request->division_id;
+        // dd($education);
+        $education->update();
+
+        return redirect()->route('student.education')->with('info', 'Education Updated Successfully');
+    }
 }

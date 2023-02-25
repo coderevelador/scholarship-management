@@ -105,16 +105,18 @@
                     Add Details
                 </button>
             @else
-                <a href="{{ route('student.education.edit', $educations->id) }}" class="mb-1 btn btn-primary float-end">
+                <button type="submit" class="mb-1 btn btn-primary float-end" data-target="#educationModalFormUpdate"
+                    data-toggle="modal">
                     <i class=" mdi mdi-star-outline mr-1"></i>
                     Update
-                </a>
+                </button>
             @endif
 
 
         </div>
     </div>
 
+    {{-- add eduction --}}
     <div class="modal fade" id="educationModalForm" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -174,6 +176,78 @@
         </div>
     </div>
 
+    @if (!empty($educations->id))
+        {{-- update eduction --}}
+        <div class="modal fade" id="educationModalFormUpdate" tabindex="-1" role="dialog" aria-hidden="true"
+            style="display: none;">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalFormTitle">Update Your Education</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="{{ route('student.education.update', $educations->id) }}"
+                            id="educationFormSubmit" data-id={{ $educations->id }}>
+                            @csrf
+                            <div class="form-group">
+                                <label for="year_id">Academic Year</label>
+                                <select name="year_id" class="form-control" required>
+                                    <option value="">Select Year</option>
+                                    @foreach ($years as $year)
+                                        <option value="{{ $year->id }}"
+                                            {{ $educations->year_id == $year->id ? 'selected' : '' }}>
+                                            {{ $year->year }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="department_id">Department</label>
+                                <select name="department_id" class="form-control" required>
+                                    <option value="">Select Department</option>
+                                    @foreach ($departments as $department)
+                                        <option value="{{ $department->id }}"
+                                            {{ $educations->department_id == $department->id ? 'selected' : '' }}>
+                                            {{ $department->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="course_id">Course</label>
+                                <select name="course_id" class="form-control" required>
+                                    <option value="">Select Course</option>
+                                    @foreach ($courses as $course)
+                                        <option value="{{ $course->id }}"
+                                            {{ $educations->course_id == $course->id ? 'selected' : '' }}>
+                                            {{ $course->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="division_id">Division</label>
+                                <select name="division_id" class="form-control" required>
+                                    <option value="">Select Division</option>
+                                    @foreach ($divisions as $division)
+                                        <option value="{{ $division->id }}"
+                                            {{ $educations->division_id == $division->id ? 'selected' : '' }}>
+                                            {{ $division->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger btn-pill" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary btn-pill">Save Changes</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
     <script>
         // Show Form Information
         $('#educationModalForm').click(function() {
@@ -194,7 +268,40 @@
                     url: "{{ route('student.education.store') }}",
                     data: $('#educationFormSubmit').serialize(),
                     success: function(response) {
-                        toastr.success('Form submitted successfully!');
+                        toastr.success('Education Added successfully!');
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1500);
+                    },
+                    error: function(response) {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            });
+        });
+
+        // edit
+
+        $('#educationModalFormUpdate').click(function() {
+            $.ajax({
+                type: 'get',
+                success: function(data) {
+
+                }
+            });
+        });
+
+        // update data
+        $(document).ready(function() {
+            $('#educationFormSubmitUpdate').submit(function(e) {
+                e.preventDefault();
+                var url = $(this).attr('action');
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: $('#educationFormSubmit').serialize(),
+                    success: function(response) {
+                        toastr.info('Education Updated successfully!');
                         setTimeout(function() {
                             location.reload();
                         }, 1500);
