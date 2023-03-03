@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class AcademicYear extends Model
 {
     use HasFactory;
+    protected $fillable = ['name'];
+
+    public function scholarshipList()
+    {
+        return $this->hasMany(scholarshipList::class);
+    }
 }

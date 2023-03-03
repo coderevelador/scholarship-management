@@ -161,6 +161,12 @@
                 @endauth
                 @role('Student')
                     <li>
+                        <a class="sidenav-item-link" href="{{ route('apply-scholarship.index') }}">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span class="nav-text">Apply Scholarship</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="sidenav-item-link" href="{{ route('student.education') }}">
                             <i class="fas fa-book-reader"></i>
                             <span class="nav-text">Educational Details</span>

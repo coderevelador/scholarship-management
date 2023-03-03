@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcademicYearController;
+use App\Http\Controllers\ApplyScholarshipController;
 use App\Models\Division;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -83,6 +84,8 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::get('/educational-details/edit/{id}', [StudentEducationalProfileController::class, 'edit'])->name('student.education.edit');
     Route::post('/educational-details/store', [StudentEducationalProfileController::class, 'store'])->name('student.education.store');
     Route::post('/educational-details/update/{id}', [StudentEducationalProfileController::class, 'update'])->name('student.education.update');
+
+    Route::resource('apply-scholarship', ApplyScholarshipController::class);
 });
 
 // Guest

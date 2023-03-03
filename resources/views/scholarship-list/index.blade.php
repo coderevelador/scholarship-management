@@ -57,9 +57,18 @@
                                             style="width: 110px; display: inline-block;"
                                             data-id="{{ $scholarshiplist->id }}">Delete</button>
                                     </div>
+                                    @if (Carbon\Carbon::today()->toDateString() <= $scholarshiplist->deadline)
+                                        <p style="text-align: center; padding-top:10px;margin-bottom:-20px; ">
+                                            <span
+                                                class="badge badge-{{ Carbon\Carbon::today()->toDateString() >= $scholarshiplist->deadline ? 'warning' : 'primary' }}">Deadline:
+                                                {{ $scholarshiplist->deadline }}</span>
+                                        </p>
+                                    @else
+                                        <p style="text-align: center; padding-top:10px;margin-bottom:-20px; color:red">
+                                            <span class="badge badge-danger">Expired</span>
+                                        </p>
+                                    @endif
 
-                                    <p style="text-align: center; padding-top:10px;margin-bottom:-20px;">
-                                        Deadline: {{ $scholarshiplist->deadline }}</p>
                                 </div>
                             </div>
                         </div>
