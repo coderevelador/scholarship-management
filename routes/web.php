@@ -86,6 +86,8 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::post('/educational-details/update/{id}', [StudentEducationalProfileController::class, 'update'])->name('student.education.update');
 
     Route::resource('apply-scholarship', ApplyScholarshipController::class);
+    Route::get('/apply-scholarship/{id}/apply', [ApplyScholarshipController::class, 'applyScholarship'])->name('apply.scholarship');
+    Route::get('/apply-scholarship/eligibility-checking/income', [ApplyScholarshipController::class, 'eligibilityIncome'])->name('eligibility.income');
 });
 
 // Guest

@@ -26,4 +26,8 @@ class ScholarshipList extends Model
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');
     }
+    public function division()
+    {
+        return $this->belongsTo(Division::class, 'division_id', 'id');
+    }
 }

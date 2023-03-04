@@ -39,7 +39,7 @@
 
                                         <div style="display: flex; justify-content: center;">
 
-                                            <a href="{{ route('apply-scholarship.create') }}"
+                                            <a href="{{ route('apply.scholarship', $scholarshiplist->id) }}"
                                                 class="btn btn-outline-info btn-pill mt-2 mx-auto"
                                                 style="width:; display: inline-block; ">Apply Now</a>
                                         </div>

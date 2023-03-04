@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use App\Models\ScholarshipList;
 use Carbon\Carbon;
@@ -36,7 +37,6 @@ class ApplyScholarshipController extends Controller
      */
     public function create()
     {
-        return view('students.apply_scholarship.create');
     }
 
     /**
@@ -69,7 +69,6 @@ class ApplyScholarshipController extends Controller
      */
     public function edit($id)
     {
-        //
     }
 
     /**
@@ -93,5 +92,27 @@ class ApplyScholarshipController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function applyScholarship($id)
+    {
+        $applyScholarship = ScholarshipList::find($id);
+
+        return view('students.apply_scholarship.create', compact('applyScholarship'));
+    }
+    public function eligibilityIncome(Request $request)
+    {
+        $annualIncome = $request->input('annual_income');
+
+        $incomeElibility = DB::table('eligibilities')
+            ->join('scholarship_lists', 'scholarship_lists.eligibility_id', '=', 'eligibilities.id')
+            ->select('eligibilities.income')
+            ->first();
+        $incomeElibility = $incomeElibility->income;
+
+        if ($annualIncome >  $incomeElibility) {
+            return response()->json([
+                'message' => 'You are not eligible for this scholarship'
+            ], 400);
+        }
     }
 }
