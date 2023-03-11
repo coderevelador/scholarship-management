@@ -9,7 +9,7 @@
             </div>
 
             <div class="container">
-                <form method="POST" action="{{ route('scholarship-list.store') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('apply.store.scholarship', $applyScholarship->id) }}">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -52,15 +52,21 @@
                         <div class="col-md-6">
                             <label for="name" class="form-label">Annual Income</label>
                             <input type="number" class="form-control" name="annual_income" id="annual_income"
-                                placeholder="Enter your annual income" required>
+                                placeholder="Enter your annual income">
+                            @if ($errors->has('annual_income'))
+                                <span class="text-danger text-left">{{ $errors->first('annual_income') }}</span>
+                            @endif
                         </div>
                         <div class="col-md-6">
                             <label for="" class="form-label">Mark Percentage</label>
-                            <input type="text" class="form-control" name="mark_percentage"
+                            <input type="text" class="form-control" name="mark_percentage" id="mark_percentage"
                                 placeholder="Enter your mark percentage">
+                            @if ($errors->has('mark_percentage'))
+                                <span class="text-danger text-left">{{ $errors->first('mark_percentage') }}</span>
+                            @endif
                         </div>
                     </div>
-
+                    <input type="hidden" value="{{ Auth::user()->id }}" name="student_id">
                     <br>
                     <button type="submit" class="btn btn-primary">Apply Now</button>
                     <a href="{{ route('apply-scholarship.index') }}" class="btn btn-default">Back</a>
@@ -81,27 +87,63 @@
                 data: {
                     annual_income: annualIncome
                 },
-                success: function(response) {
+                error: function(xhr, status, error) {
+                    if (xhr.status === 400) {
+                        Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'You are not eligible for this scholarship',
+                                customClass: {
+                                    icon: 'error-icon-class',
+                                    title: 'error-title-class',
+                                    content: 'error-content-class',
+                                    confirmButton: 'error-confirm-button-class'
+                                },
+                                background: '#f5f5f5',
+                                confirmButtonColor: '#e31e43',
+                                confirmButtonText: 'OK',
+                                heightAuto: false,
+                                allowOutsideClick: false,
+                            }),
+                            setTimeout(() => {
+                                window.location = "{{ route('apply-scholarship.index') }}";
+                            }, 3000);
+                    }
+                }
+            });
+        });
+        // mark percentage checking
+        $('#mark_percentage').change(function(e) {
+            e.preventDefault();
+            var markPercentage = $('#mark_percentage').val();
 
+            $.ajax({
+                url: '/apply-scholarship/eligibility-checking/mark-percentage',
+                type: 'GET',
+                data: {
+                    mark_percentage: markPercentage
                 },
                 error: function(xhr, status, error) {
                     if (xhr.status === 400) {
                         Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'You are not eligible for this scholarship',
-                            customClass: {
-                                icon: 'error-icon-class',
-                                title: 'error-title-class',
-                                content: 'error-content-class',
-                                confirmButton: 'error-confirm-button-class'
-                            },
-                            background: '#f5f5f5',
-                            confirmButtonColor: '#e31e43',
-                            confirmButtonText: 'OK',
-                            heightAuto: false,
-                            allowOutsideClick: false
-                        })
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'You are not eligible for this scholarship',
+                                customClass: {
+                                    icon: 'error-icon-class',
+                                    title: 'error-title-class',
+                                    content: 'error-content-class',
+                                    confirmButton: 'error-confirm-button-class'
+                                },
+                                background: '#f5f5f5',
+                                confirmButtonColor: '#e31e43',
+                                confirmButtonText: 'OK',
+                                heightAuto: false,
+                                allowOutsideClick: false,
+                            }),
+                            setTimeout(() => {
+                                window.location = "{{ route('apply-scholarship.index') }}";
+                            }, 3000);
                     }
                 }
             });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AcademicYear;
+use App\Models\AppliedScholarship;
 use Illuminate\Http\Request;
 use App\Models\ScholarshipList;
 use Carbon\Carbon;
@@ -99,6 +100,29 @@ class ApplyScholarshipController extends Controller
 
         return view('students.apply_scholarship.create', compact('applyScholarship'));
     }
+    // store applied scholarship
+
+    public function storeAppliedScholarship($id, Request $request)
+    {
+
+        $request->validate([
+            'annual_income' => 'required',
+            'mark_percentage' => 'required',
+        ]);
+
+        $appliedScholarship = new AppliedScholarship();
+        $appliedScholarship->scholarship_id = $id;
+        $appliedScholarship->student_id = $request->student_id;
+        $appliedScholarship->annual_income = $request->annual_income;
+        $appliedScholarship->mark_percentage = $request->mark_percentage;
+        $appliedScholarship->submission_date = Carbon::now();
+        $appliedScholarship->status = 'pending';
+        // dd($appliedScholarship);
+        $appliedScholarship->save();
+
+        return redirect()->route('apply-scholarship.index')->with('success','Successfully Applied the Scholarship');
+    }
+
     public function eligibilityIncome(Request $request)
     {
         $annualIncome = $request->input('annual_income');
@@ -110,6 +134,22 @@ class ApplyScholarshipController extends Controller
         $incomeElibility = $incomeElibility->income;
 
         if ($annualIncome >  $incomeElibility) {
+            return response()->json([
+                'message' => 'You are not eligible for this scholarship'
+            ], 400);
+        }
+    }
+    public function MarkPercentage(Request $request)
+    {
+        $MarkPercentage = $request->input('mark_percentage');
+
+        $MarkPercentageElibility = DB::table('eligibilities')
+            ->join('scholarship_lists', 'scholarship_lists.eligibility_id', '=', 'eligibilities.id')
+            ->select('eligibilities.minimumPercentage')
+            ->first();
+        $MarkPercentageElibility = $MarkPercentageElibility->minimumPercentage;
+
+        if ($MarkPercentage <  $MarkPercentageElibility) {
             return response()->json([
                 'message' => 'You are not eligible for this scholarship'
             ], 400);

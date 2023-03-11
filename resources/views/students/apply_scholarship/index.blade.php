@@ -9,7 +9,8 @@
             </div>
             @if (sizeof($scholarshiplists) == 0)
                 <div class="alert alert-info" role="alert">
-                    Scholarshiplist not found! Please come back later.
+                    Scholarshiplist not found! Please come back later or <a
+                        href="{{ route('student.education') }}"><b>Update your educational details!</b></a>
                 </div>
             @endif
             @if (!empty($scholarshiplists))
