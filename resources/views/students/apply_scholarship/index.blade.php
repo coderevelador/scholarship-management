@@ -9,14 +9,14 @@
             </div>
             @if (sizeof($scholarshiplists) == 0)
                 <div class="alert alert-info" role="alert">
-                    Scholarshiplist not found! Please come back later or <a
-                        href="{{ route('student.education') }}"><b>Update your educational details!</b></a>
+                    Scholarshiplist not found! Please come back later or <a href="{{ route('student.education') }}"><b>Update
+                            your educational details!</b></a>
                 </div>
             @endif
             @if (!empty($scholarshiplists))
                 <div class="row col-sm-8 col-lg-12 col-xl-12">
 
-                    @foreach ($scholarshiplists as $scholarshiplist)
+                    @foreach ($scholarshiplists as $key => $scholarshiplist)
                         @if ($scholarshiplist->status == 0)
                             <div class="col-lg-6 col-xl-3 scholarshiplist-{{ $scholarshiplist->id }}">
                                 <div class="card mb-4">
@@ -40,9 +40,16 @@
 
                                         <div style="display: flex; justify-content: center;">
 
-                                            <a href="{{ route('apply.scholarship', $scholarshiplist->id) }}"
-                                                class="btn btn-outline-info btn-pill mt-2 mx-auto"
-                                                style="width:; display: inline-block; ">Apply Now</a>
+                                     
+                                            @if (!empty($appliedApplication->contains($scholarshiplist->id)))
+                                                <button class="btn btn-danger btn-pill mt-2 mx-auto"
+                                                    disabled>Applied</button>
+                                            @else
+                                                <a href="{{ route('apply.scholarship', $scholarshiplist->id) }}"
+                                                    class="btn btn-outline-info btn-pill mt-2 mx-auto"
+                                                    style="width:; display: inline-block; ">Apply Now</a>
+                                            @endif
+
                                         </div>
                                         <p
                                             style="text-align: center; padding-top:10px;margin-bottom:-20px; color:{{ Carbon\Carbon::today()->toDateString() == $scholarshiplist->deadline ? 'red' : 'green' }}">

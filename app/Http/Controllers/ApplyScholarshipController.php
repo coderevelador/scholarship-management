@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\AcademicYear;
-use App\Models\AppliedScholarship;
 use Illuminate\Http\Request;
 use App\Models\ScholarshipList;
-use Carbon\Carbon;
+use App\Models\AppliedScholarship;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ApplyScholarshipController extends Controller
 {
@@ -28,7 +29,17 @@ class ApplyScholarshipController extends Controller
             ->select('scholarship_lists.*', DB::raw('(SELECT name FROM academic_years WHERE id = scholarship_lists.academic_year_id) AS yearname, (SELECT name FROM departments WHERE id = scholarship_lists.department_id) AS department, (SELECT name FROM courses WHERE id = scholarship_lists.course_id) AS course'))
             ->paginate(4);
 
-        return view('students.apply_scholarship.index', compact('scholarshiplists'));
+        // Applied check
+
+        $appliedApplication = DB::table('applied_scholarships')
+            ->join('scholarship_lists', 'scholarship_lists.id', '=', 'applied_scholarships.scholarship_id')
+            ->join('users', 'users.id', '=', 'applied_scholarships.student_id')
+            ->where('users.id', '=', Auth::user()->id)
+            ->pluck('applied_scholarships.scholarship_id');
+
+        // dd($appliedApplication);
+
+        return view('students.apply_scholarship.index', compact('scholarshiplists', 'appliedApplication'));
     }
 
     /**
@@ -120,7 +131,7 @@ class ApplyScholarshipController extends Controller
         // dd($appliedScholarship);
         $appliedScholarship->save();
 
-        return redirect()->route('apply-scholarship.index')->with('success','Successfully Applied the Scholarship');
+        return redirect()->route('apply-scholarship.index')->with('success', 'Successfully Applied the Scholarship');
     }
 
     public function eligibilityIncome(Request $request)
