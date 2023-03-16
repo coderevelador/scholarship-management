@@ -33,7 +33,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <a href="#" class="btn btn-outline-info btn-pill mt-2"
+                                        <a href="{{ route('scholarship-list.show', $scholarshiplist->id) }}"
+                                            class="btn btn-outline-info btn-pill mt-2"
                                             style="width: 110px; display: inline-block;">Show</a>
                                     </div>
                                     <div class="col-md-6">

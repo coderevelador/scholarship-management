@@ -8,6 +8,7 @@ use App\Models\Division;
 use App\Models\Department;
 use App\Models\Eligibility;
 use App\Models\AcademicYear;
+use App\Models\AppliedScholarship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\ScholarshipList;
@@ -92,7 +93,12 @@ class ScholarshipListController extends Controller
      */
     public function show($id)
     {
-        //
+        $appliedScholar = AppliedScholarship::where('scholarship_id', '=', $id)->get();
+        $scholarshipName = ScholarshipList::find($id);
+
+        // dd($appliedScholar);
+
+        return view('scholarship-list.show', compact('appliedScholar', 'scholarshipName'));
     }
 
     /**
@@ -170,9 +176,9 @@ class ScholarshipListController extends Controller
     {
         $scholarship_list = ScholarshipList::find($id);
 
-            if ($scholarship_list->cover_image != 'scholarship_list.jpg') {
-                unlink(public_path('/images/scholarship_list/'. $scholarship_list->cover_image));
-            }
+        if ($scholarship_list->cover_image != 'scholarship_list.jpg') {
+            unlink(public_path('/images/scholarship_list/' . $scholarship_list->cover_image));
+        }
         $scholarship_list->delete();
 
         return redirect()->route('scholarship-list.index')->with('error', 'Scholarship List Deleetd Successfully');
