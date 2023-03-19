@@ -6,7 +6,8 @@
         <div class="bg-light p-4 rounded">
             <h1>{{ $scholarshipName->name }} Applied by Students</h1>
             <div class="lead">
-                Manage your applied scholarship here.
+                Manage your applied scholarship here. <a class="btn btn-primary float-right"
+                    href="{{ route('scholarship-list.index') }}">Back</a>
             </div>
 
             <table id="productsTable" class="table table-hover table-product" style="width:100%">
@@ -33,13 +34,17 @@
                             <td>{{ $student->id }}</td>
                             <td>{{ $student->studentDetails->name }}</td>
                             <td>{{ $student->studentEducationDetails->departmentName->name }}</td>
-                            <td>{{ $student->studentEducationDetails->course->name}}</td>
-                            <td>{{ $student->studentEducationDetails->division->name}}</td>
+                            <td>{{ $student->studentEducationDetails->course->name }}</td>
+                            <td>{{ $student->studentEducationDetails->division->name }}</td>
                             <td>{{ $student->annual_income }}</td>
                             <td>{{ $student->mark_percentage }}</td>
                             <td>{{ $student->submission_date }}</td>
-                            <td>{{ $student->status }}</td>
-                            <td></td>
+                            <td> <span
+                                    class="badge badge-{{ $student->status == 'rejected' ? 'danger' : 'success' }}">{{ $student->status }}</span>
+                            </td>
+                            <td><a href="{{ route('apply-scholarship.edit', $student->id) }}"
+                                    class="btn btn-primary mt-1">Edit</a> <button data-id="{{ $student->id }}"
+                                    class="btn btn-danger mt-1 delete-scholarship">Delete</button></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -67,6 +72,7 @@
             {{-- end model user details --}}
 
         </div>
+
     </div>
 
     <script>
@@ -108,8 +114,8 @@
 
 
         // delete user
-        $(document).on('click', '.delete-students', function() {
-            var user_id = $(this).data('id');
+        $(document).on('click', '.delete-scholarship', function() {
+            var student_id = $(this).data('id');
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -122,7 +128,7 @@
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url: "/students/" + user_id,
+                        url: "/apply-scholarship/" + student_id,
                         type: 'POST',
                         data: {
                             _method: 'delete'
@@ -131,10 +137,10 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(data) {
-                            $('.students-' + user_id).remove();
+                            $('.students-' + student_id).remove();
                             Swal.fire(
                                 'Deleted!',
-                                'The division has been deleted.',
+                                'The application has been deleted.',
                                 'success'
                             ).then((result) => {
                                 // Reload the Page

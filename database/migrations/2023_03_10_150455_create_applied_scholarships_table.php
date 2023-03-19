@@ -20,7 +20,7 @@ class CreateAppliedScholarshipsTable extends Migration
             $table->string('annual_income');
             $table->string('mark_percentage');
             $table->date('submission_date');
-            $table->enum('status', ['pending', 'inprogress', 'approved', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'inprogress', 'approved', 'payment_done', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }

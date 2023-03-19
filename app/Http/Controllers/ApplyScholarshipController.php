@@ -81,6 +81,9 @@ class ApplyScholarshipController extends Controller
      */
     public function edit($id)
     {
+        $appliedScholarship = AppliedScholarship::find($id);
+
+        return view('students.apply_scholarship.edit', compact('appliedScholarship'));
     }
 
     /**
@@ -92,7 +95,31 @@ class ApplyScholarshipController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'annual_income' => 'required',
+            'mark_percentage' => 'required',
+        ]);
+
+        $appliedScholarship = AppliedScholarship::find($id);
+        $appliedScholarship->scholarship_id = $appliedScholarship->scholarship_id;
+        $appliedScholarship->student_id = $appliedScholarship->student_id;
+        $appliedScholarship->annual_income = $request->annual_income;
+        $appliedScholarship->mark_percentage = $request->mark_percentage;
+        $appliedScholarship->submission_date = $appliedScholarship->submission_date;
+        $appliedScholarship->status = $request->status;
+
+        if (!empty($request->payment_receipt)) {
+            if (!empty($appliedScholarship->payment_receipt)) {
+                unlink(public_path('payment-receipt/' . $appliedScholarship->payment_receipt));
+            }
+            $file_name = "payment-receipt-" . time() . '.' . $request->payment_receipt->extension();
+            $request->payment_receipt->move(public_path('/payment-receipt'), $file_name);
+            $appliedScholarship->payment_receipt = $file_name;
+        }
+        // dd($appliedScholarship);
+        $appliedScholarship->save();
+
+        return redirect()->route('scholarship-list.index')->with('info', 'Successfully Updated the Scholarship');
     }
 
     /**
@@ -103,7 +130,13 @@ class ApplyScholarshipController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $appliedScholarship = AppliedScholarship::find($id);
+
+        if (!empty($appliedScholarship->payment_receipt)) {
+            unlink(public_path('payment-receipt/' . $appliedScholarship->payment_receipt));
+        }
+        $appliedScholarship->delete();
+        return redirect()->route('scholarship-list.index')->with('error', 'Successfully Deleted the Scholarship');
     }
     public function applyScholarship($id)
     {
@@ -132,6 +165,10 @@ class ApplyScholarshipController extends Controller
         $appliedScholarship->save();
 
         return redirect()->route('apply-scholarship.index')->with('success', 'Successfully Applied the Scholarship');
+    }
+
+    public function updateAppliedScholarship(Request $request, $id)
+    {
     }
 
     public function eligibilityIncome(Request $request)
@@ -164,6 +201,12 @@ class ApplyScholarshipController extends Controller
             return response()->json([
                 'message' => 'You are not eligible for this scholarship'
             ], 400);
+        }
+
+        if ($MarkPercentage >  100) {
+            return response()->json([
+                'message' => 'Mark Percentage must less than or equal to 100'
+            ], 406);
         }
     }
 }

@@ -9,6 +9,8 @@ class AppliedScholarship extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['status'];
+
     public function studentDetails()
     {
 
@@ -20,4 +22,8 @@ class AppliedScholarship extends Model
         return $this->belongsTo(StudentEducationalDetails::class, 'student_id', 'student_id');
     }
 
+    public function scholarshipName()
+    {
+        return $this->belongsTo(ScholarshipList::class, 'scholarship_id', 'id');
+    }
 }
