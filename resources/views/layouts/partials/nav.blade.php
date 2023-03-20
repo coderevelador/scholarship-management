@@ -167,6 +167,12 @@
                         </a>
                     </li>
                     <li>
+                        <a class="sidenav-item-link" href="{{ route('applied.status.scholarship' , Auth::user()->id) }}">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="nav-text">Scholarship Status</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="sidenav-item-link" href="{{ route('student.education') }}">
                             <i class="fas fa-book-reader"></i>
                             <span class="nav-text">Educational Details</span>

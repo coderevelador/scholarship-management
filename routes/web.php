@@ -88,6 +88,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::resource('apply-scholarship', ApplyScholarshipController::class);
     Route::get('/apply-scholarship/{id}/apply', [ApplyScholarshipController::class, 'applyScholarship'])->name('apply.scholarship');
     Route::post('/apply-scholarship/{id}/apply/store', [ApplyScholarshipController::class, 'storeAppliedScholarship'])->name('apply.store.scholarship');
+    Route::get('/apply-scholarship/{id}/applied/status', [ApplyScholarshipController::class, 'statusAppliedScholarship'])->name('applied.status.scholarship');
     Route::get('/apply-scholarship/eligibility-checking/income', [ApplyScholarshipController::class, 'eligibilityIncome'])->name('eligibility.income');
     Route::get('/apply-scholarship/eligibility-checking/mark-percentage', [ApplyScholarshipController::class, 'MarkPercentage'])->name('eligibility.mark-percentage');
 });

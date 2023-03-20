@@ -209,4 +209,15 @@ class ApplyScholarshipController extends Controller
             ], 406);
         }
     }
+
+    // Student Applied Scholarship Status
+
+    public function statusAppliedScholarship($id)
+    {
+
+        $appliedStatus = AppliedScholarship::find($id)->get();
+        // dd($appliedStatus);
+
+        return view('students.apply_scholarship.status', compact('appliedStatus'));
+    }
 }
