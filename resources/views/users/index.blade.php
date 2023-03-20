@@ -8,10 +8,14 @@
             <div class="lead">
                 Manage your users here.
                 <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right">Add new user</a>
+
             </div>
 
+
             <table id="productsTable" class="table table-hover table-product" style="width:100%">
+
                 <thead>
+
                     <tr>
                         <th>#</th>
                         <th>Image</th>
@@ -52,6 +56,8 @@
                     @endforeach
                 </tbody>
             </table>
+
+
             {{-- model user details --}}
 
             <div class="modal fade" id="view-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -76,6 +82,24 @@
 
         </div>
     </div>
+    {{-- Export Section --}}
+
+    <div class="btn-group mr-3 mb-4 float-right" role="group" aria-label="Button group with nested dropdown">
+
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Export
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start"
+                style="position: absolute; transform: translate3d(0px, 42px, 0px); top: 0px; left: 0px; will-change: transform; background:#04c7e0; ">
+                <a class="dropdown-item " href="{{ route('users.export.excel') }}">EXCEL</a>
+                <a class="dropdown-item" href="{{ route('users.export.csv') }}">CSV</a>
+                <a class="dropdown-item" href="{{ route('users.export.pdf') }}">PDF</a>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         // Show User Information
@@ -146,8 +170,5 @@
                 }
             });
         });
-
-
-       
     </script>
 @endsection

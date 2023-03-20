@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
@@ -122,7 +124,7 @@ class UsersController extends Controller
 
         if ($request->image != '') {
             if ($user->image != 'user.jpg') {
-                unlink(public_path('/images/user/'.$user->image));
+                unlink(public_path('/images/user/' . $user->image));
             }
             $image_name = "user-" . time() . '.' . $request->image->extension();
             $request->image->move(public_path('/images/user/'), $image_name);
@@ -150,5 +152,22 @@ class UsersController extends Controller
 
         return redirect()->route('users.index')
             ->with('error', 'User deleted successfully.');
+    }
+
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
+    }
+
+    public function exportCSV()
+    {
+        return Excel::download(new UsersExport, 'users.csv', \Maatwebsite\Excel\Excel::CSV, [
+            'Content-Type' => 'text/csv',
+        ]);
+    }
+
+    public function exportPDF()
+    {
+        return Excel::download(new UsersExport, 'users.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
     }
 }

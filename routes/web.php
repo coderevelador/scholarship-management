@@ -63,7 +63,9 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::get('/users/edit/{id}', [UsersController::class, 'edit'])->name('users.edit');
     Route::post('/users/update/{id}', [UsersController::class, 'update'])->name('users.update');
     Route::get('/users/delete/{id}', [UsersController::class, 'destroy'])->name('users.destroy');
-
+    Route::get('/users/export/excel', [UsersController::class, 'export'])->name('users.export.excel');
+    Route::get('/users/export/csv', [UsersController::class, 'exportCSV'])->name('users.export.csv');
+    Route::get('/users/export/pdf', [UsersController::class, 'exportPDF'])->name('users.export.pdf');
 
     Route::resource('profile', UserProfileController::class);
     Route::resource('school', SchoolController::class);
