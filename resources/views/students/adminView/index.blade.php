@@ -72,6 +72,28 @@
         </div>
     </div>
 
+    {{-- Export Section --}}
+
+    <div class="btn-group mr-3 mb-4 float-right" role="group" aria-label="Button group with nested dropdown">
+
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Export
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start"
+                style="position: absolute; transform: translate3d(0px, 42px, 0px); top: 0px; left: 0px; will-change: transform; background:#04c7e0; ">
+                <a class="dropdown-item " href="{{ route('students.export.excel') }}">EXCEL</a>
+                <a class="dropdown-item" href="{{ route('students.export.csv') }}">CSV</a>
+                <a class="dropdown-item" href="{{ route('students.export.pdf') }}">PDF</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
     <script>
         // Show User Information
         $(document).on('click', '.view-page', function() {

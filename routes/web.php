@@ -72,9 +72,13 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::resource('department', DepartmentController::class);
     Route::resource('course', CourseController::class);
     Route::resource('division', DivisionController::class);
-    Route::resource('students', StudentsController::class);
     Route::resource('scholarship-list', ScholarshipListController::class);
     Route::get('/scholarship-list/disable/{id}', [ScholarshipListController::class, 'disableStudentList'])->name('disable.studentlist');
+
+    Route::resource('students', StudentsController::class);
+    Route::get('/students/export/excel', [StudentsController::class, 'exportExcel'])->name('students.export.excel');
+    Route::get('/students/export/csv', [StudentsController::class, 'exportCSV'])->name('students.export.csv');
+    Route::get('/students/export/pdf', [StudentsController::class, 'exportPDF'])->name('students.export.pdf');
 
     Route::resource('academic-year', AcademicYearController::class);
     Route::resource('eligibility', EligibilityCheckController::class);

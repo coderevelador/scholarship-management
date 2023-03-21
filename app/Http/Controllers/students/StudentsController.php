@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\students;
 
+use App\Exports\StudentsExport;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\StudentEducationalDetails;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentsController extends Controller
 {
@@ -120,5 +122,39 @@ class StudentsController extends Controller
 
         return redirect()->route('students.index')
             ->with('error', 'Student deleted successfully.');
+    }
+
+    public function exportExcel()
+    {
+        $data = $this->StudentData();
+
+        return Excel::download(new StudentsExport($data), 'students.xlsx');
+    }
+
+    public function exportCSV()
+    {
+        $data = $this->StudentData();
+        
+        return Excel::download(new StudentsExport($data), 'students.csv', \Maatwebsite\Excel\Excel::CSV, [
+            'Content-Type' => 'text/csv',
+        ]);
+    }
+
+    public function exportPDF()
+    {
+        $data = $this->StudentData();
+
+        return Excel::download(new StudentsExport($data), 'students.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    protected function StudentData()
+    {
+        $data = User::leftjoin('student_educational_details', 'users.id', '=', 'student_educational_details.student_id')
+            ->leftjoin('academic_years', 'student_educational_details.year_id', 'academic_years.id')
+            ->leftjoin('departments', 'student_educational_details.department_id', 'departments.id')
+            ->leftjoin('courses', 'student_educational_details.course_id', 'courses.id')
+            ->leftjoin('divisions', 'student_educational_details.division_id', 'divisions.id')
+            ->select('users.id', 'users.name', 'users.email', 'academic_years.year AS year', 'departments.name AS department', 'courses.name AS course', 'divisions.name AS division')->get();
+        return $data;
     }
 }
