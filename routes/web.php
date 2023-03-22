@@ -75,6 +75,12 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::resource('scholarship-list', ScholarshipListController::class);
     Route::get('/scholarship-list/disable/{id}', [ScholarshipListController::class, 'disableStudentList'])->name('disable.studentlist');
 
+    // Individual scholarship export
+    Route::get('/scholarship-list/{id}/export/excel', [ScholarshipListController::class, 'exportExcelSingle'])->name('scholarshiplistsingle.export.excel');
+    Route::get('/scholarship-list/{id}/export/csv', [ScholarshipListController::class, 'exportCSVSingle'])->name('scholarshiplistsingle.export.csv');
+    Route::get('/scholarship-list/{id}/export/pdf', [ScholarshipListController::class, 'exportPDFSingle'])->name('scholarshiplistsingle.export.pdf');
+
+
     Route::resource('students', StudentsController::class);
     Route::get('/students/export/excel', [StudentsController::class, 'exportExcel'])->name('students.export.excel');
     Route::get('/students/export/csv', [StudentsController::class, 'exportCSV'])->name('students.export.csv');
