@@ -103,6 +103,8 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::get('/apply-scholarship/{id}/applied/status', [ApplyScholarshipController::class, 'statusAppliedScholarship'])->name('applied.status.scholarship');
     Route::get('/apply-scholarship/eligibility-checking/income', [ApplyScholarshipController::class, 'eligibilityIncome'])->name('eligibility.income');
     Route::get('/apply-scholarship/eligibility-checking/mark-percentage', [ApplyScholarshipController::class, 'MarkPercentage'])->name('eligibility.mark-percentage');
+
+    Route::get('/applied-scholarship/all', [ApplyScholarshipController::class, 'AppliedScholarshipAll'])->name('apply.scholarship.all');
 });
 
 // Guest

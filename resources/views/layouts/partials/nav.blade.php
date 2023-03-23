@@ -87,6 +87,14 @@
                                 </a>
                             </li>
                         @endcanany
+                        @canany(['apply.scholarship.all'])
+                            <li>
+                                <a class="sidenav-item-link" href="{{ route('apply.scholarship.all') }}">
+                                    <i class="mdi mdi-equal-box"></i>
+                                    <span class="nav-text">Applied Scholarships</span>
+                                </a>
+                            </li>
+                        @endcanany
                     @endcanany
                     @canany(['academic-year.index', 'school.index', 'department.index', 'course.index', 'division.index',
                         'eligibility.index'])
@@ -167,7 +175,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="sidenav-item-link" href="{{ route('applied.status.scholarship' , Auth::user()->id) }}">
+                        <a class="sidenav-item-link" href="{{ route('applied.status.scholarship', Auth::user()->id) }}">
                             <i class="fas fa-info-circle"></i>
                             <span class="nav-text">Scholarship Status</span>
                         </a>

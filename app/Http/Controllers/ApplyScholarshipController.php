@@ -37,7 +37,7 @@ class ApplyScholarshipController extends Controller
             ->where('users.id', '=', Auth::user()->id)
             ->pluck('applied_scholarships.scholarship_id');
 
-        // dd($appliedApplication);
+
 
         return view('students.apply_scholarship.index', compact('scholarshiplists', 'appliedApplication'));
     }
@@ -144,6 +144,7 @@ class ApplyScholarshipController extends Controller
 
         return view('students.apply_scholarship.create', compact('applyScholarship'));
     }
+
     // store applied scholarship
 
     public function storeAppliedScholarship($id, Request $request)
@@ -161,7 +162,7 @@ class ApplyScholarshipController extends Controller
         $appliedScholarship->mark_percentage = $request->mark_percentage;
         $appliedScholarship->submission_date = Carbon::now();
         $appliedScholarship->status = 'pending';
-        // dd($appliedScholarship);
+
         $appliedScholarship->save();
 
         return redirect()->route('apply-scholarship.index')->with('success', 'Successfully Applied the Scholarship');
@@ -216,8 +217,17 @@ class ApplyScholarshipController extends Controller
     {
 
         $appliedStatus = AppliedScholarship::find($id)->get();
-        // dd($appliedStatus);
+
 
         return view('students.apply_scholarship.status', compact('appliedStatus'));
+    }
+
+    // all applied sholarship view
+
+    public function AppliedScholarshipAll()
+    {
+        $appliedScholarship = AppliedScholarship::all();
+        // dd($appliedScholarship);
+        return view('students.apply_scholarship.all_scholarship', compact('appliedScholarship'));
     }
 }
