@@ -26,6 +26,7 @@ class ApplyScholarshipController extends Controller
                     ->on('scholarship_lists.course_id', '=', 'student_educational_details.course_id');
             })
             ->where('scholarship_lists.deadline', '>=', Carbon::today()->toDateString()) //expiry filter
+            ->where('student_educational_details.student_id', '=', Auth::user()->id)
             ->select('scholarship_lists.*', DB::raw('(SELECT name FROM academic_years WHERE id = scholarship_lists.academic_year_id) AS yearname, (SELECT name FROM departments WHERE id = scholarship_lists.department_id) AS department, (SELECT name FROM courses WHERE id = scholarship_lists.course_id) AS course'))
             ->paginate(4);
 
@@ -216,7 +217,7 @@ class ApplyScholarshipController extends Controller
     public function statusAppliedScholarship($id)
     {
 
-        $appliedStatus = AppliedScholarship::find($id)->get();
+        $appliedStatus = AppliedScholarship::where('student_id', '=', $id)->get();
 
 
         return view('students.apply_scholarship.status', compact('appliedStatus'));
