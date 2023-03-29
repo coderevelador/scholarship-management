@@ -7,6 +7,7 @@ use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use App\Models\ScholarshipList;
 use App\Models\AppliedScholarship;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -228,7 +229,32 @@ class ApplyScholarshipController extends Controller
     public function AppliedScholarshipAll()
     {
         $appliedScholarship = AppliedScholarship::all();
-        // dd($appliedScholarship);
-        return view('students.apply_scholarship.all_scholarship', compact('appliedScholarship'));
+        $scholarshipName = ScholarshipList::all();
+        $studentName = User::role('Student')->get();
+        $years = AcademicYear::all();
+
+        return view('students.apply_scholarship.all_scholarship', compact('appliedScholarship', 'scholarshipName', 'studentName', 'years'));
+    }
+
+    public function AppliedScholarshipFilter(Request $request)
+    {
+        $query = AppliedScholarship::query();
+
+        if ($request->input('scholarship_name')) {
+            $query->where('scholarship_id', $request->input('scholarship_name'));
+        }
+        if ($request->input('student_name')) {
+            $query->where('student_id', $request->input('student_name'));
+        }
+        if ($request->input('year')) {
+            $query->join('scholarship_lists', 'applied_scholarships.scholarship_id', '=', 'scholarship_lists.id')
+                ->join('academic_years', 'scholarship_lists.academic_year_id', '=', 'academic_years.id')
+                ->where('academic_years.id', $request->input('year'));
+        }
+
+        $query->with('studentDetails', 'scholarshipName', 'year', 'department', 'course', 'division');
+        $scholarships = $query->get();
+
+        return $scholarships;
     }
 }

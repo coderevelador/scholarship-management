@@ -105,6 +105,7 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::get('/apply-scholarship/eligibility-checking/mark-percentage', [ApplyScholarshipController::class, 'MarkPercentage'])->name('eligibility.mark-percentage');
 
     Route::get('/applied-scholarship/all', [ApplyScholarshipController::class, 'AppliedScholarshipAll'])->name('apply.scholarship.all');
+    Route::post('/applied-scholarship/filter', [ApplyScholarshipController::class, 'AppliedScholarshipFilter'])->name('apply.scholarship.filter');
 });
 
 // Guest

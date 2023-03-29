@@ -7,49 +7,87 @@
             <h1>All Applied Scholarship List</h1>
             <div class="lead">
                 Manage your applied scholarship here.
-            </div>
 
-            <table id="productsTable" class="table table-hover table-product" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Scholarship Name</th>
-                        <th>Student Name</th>
-                        <th>Year</th>
-                        <th>Department</th>
-                        <th>Course Name</th>
-                        <th>Division Name</th>
-                        <th>Annual Income</th>
-                        <th>Mark Percentage</th>
-                        <th>Submission Date</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($appliedScholarship as $scholarship)
+            </div>
+            <form method="POST" action="{{ route('apply.scholarship.filter') }}" id="filter-form">
+                @csrf
+                <div class="row float-">
+                    <div class="form-group col-md-4">
+                        <label for="status">Scholarship Name:</label>
+                        <select id="status" name="scholarship_name" class="form-control">
+                            <option value="">All</option>
+                            @foreach ($scholarshipName as $name)
+                                <option value="{{ $name->id }}">{{ $name->name }}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label for="type">Student Name:</label>
+                        <select id="type" name="student_name" class="form-control">
+                            <option value="">All</option>
+                            @foreach ($studentName as $name)
+                                <option value="{{ $name->id }}">{{ $name->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="type">Year:</label>
+                        <select id="type" name="year" class="form-control">
+                            <option value="">All</option>
+                            @foreach ($years as $year)
+                                <option value="{{ $year->id }}">{{ $year->year }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+            </form>
+            <div id="scholarships-list">
+                <table id="productsTable" class="table table-hover table-product" style="width:100%">
+                    <thead>
                         <tr>
-                            <td>{{ $scholarship->id }}</td>
-                            <td>{{ $scholarship->scholarshipName->name }}</td>
-                            <td>{{ $scholarship->studentDetails->name }}</td>
-                            <td>{{ $scholarship->studentEducationDetails->academicYear->year }}</td>
-                            <td>{{ $scholarship->studentEducationDetails->departmentName->name }}</td>
-                            <td>{{ $scholarship->studentEducationDetails->course->name }}</td>
-                            <td>{{ $scholarship->studentEducationDetails->division->name }}</td>
-                            <td>{{ $scholarship->annual_income }}</td>
-                            <td>{{ $scholarship->mark_percentage }}</td>
-                            <td>{{ $scholarship->submission_date }}</td>
-                            <td> <span
-                                    class="badge badge-{{ $scholarship->status == 'rejected' ? 'danger' : 'success' }}">{{ $scholarship->status }}</span>
-                            </td>
-                           
-                            <td><a href="{{ route('apply-scholarship.edit', $scholarship->id) }}"
-                                    class="btn btn-primary btn-sm btn-block mt-1">Edit</a> <button data-id="{{ $scholarship->id }}"
-                                    class="btn btn-danger btn-sm btn-block mt-1 delete-scholarship">Delete</button></td>
+                            <th>#</th>
+                            <th>Scholarship Name</th>
+                            <th>Student Name</th>
+                            <th>Year</th>
+                            <th>Department</th>
+                            <th>Course Name</th>
+                            <th>Division Name</th>
+                            <th>Annual Income</th>
+                            <th>Mark Percentage</th>
+                            <th>Submission Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($appliedScholarship as $scholarship)
+                            <tr>
+                                <td>{{ $scholarship->id }}</td>
+                                <td>{{ $scholarship->scholarshipName->name }}</td>
+                                <td>{{ $scholarship->studentDetails->name }}</td>
+                                <td>{{ $scholarship->studentEducationDetails->academicYear->year }}</td>
+                                <td>{{ $scholarship->studentEducationDetails->departmentName->name }}</td>
+                                <td>{{ $scholarship->studentEducationDetails->course->name }}</td>
+                                <td>{{ $scholarship->studentEducationDetails->division->name }}</td>
+                                <td>{{ $scholarship->annual_income }}</td>
+                                <td>{{ $scholarship->mark_percentage }}</td>
+                                <td>{{ $scholarship->submission_date }}</td>
+                                <td> <span
+                                        class="badge badge-{{ $scholarship->status == 'rejected' ? 'danger' : 'success' }}">{{ $scholarship->status }}</span>
+                                </td>
+
+                                <td><a href="{{ route('apply-scholarship.edit', $scholarship->id) }}"
+                                        class="btn btn-primary btn-sm btn-block mt-1">Edit</a> <button
+                                        data-id="{{ $scholarship->id }}"
+                                        class="btn btn-danger btn-sm btn-block mt-1 delete-scholarship">Delete</button></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             {{-- model user details --}}
 
             <div class="modal fade" id="view-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -98,39 +136,50 @@
     </div> --}}
 
     <script>
-        // Show User Information
-        $(document).on('click', '.view-page', function() {
-            var url = $(this).data('url');
+        // filter 
 
-            $.ajax({
-                url: url,
-                type: 'GET',
-                success: function(response) {
-                    var secondArray = response['roles'];
-                    var role_name = secondArray[0];
-                    var html =
-                        '<div class="container user-details mt-4">' +
-                        '<div>' +
-                        '<b>Student Name:</b>     ' + response.name +
-                        '</div>' +
-                        '<div>' +
-                        '<b>Email:</b>    ' + response.email +
-                        '</div>' +
-                        '<div>' +
-                        '<b>Username:</b> ' + response.username +
-                        '</div>' +
-                        '<div>' +
-                        '<b>Role:</b>     ' + role_name['name'] +
-                        '</div>' +
-                        '<div>' +
-                        '<img src="/images/user/' + response.image +
-                        '" alt="User Image" width="50px">' +
-                        '</div>' +
-                        '</div>'
-
-                    $('#view-modal .modal-body').html(html);
-                    $('#view-modal').modal('show');
-                }
+        $(document).ready(function() {
+            $('#filter-form select').on('change', function() {
+                $.ajax({
+                    url: $('#filter-form').attr('action'),
+                    method: 'POST',
+                    data: $('#filter-form').serialize(),
+                    success: function(data) {
+                        var scholarships = data;
+                        console.log(scholarships);
+                        var html = '';
+                        $.each(scholarships, function(index, scholarship) {
+                            html += '<tr>';
+                            html += '<td>' + scholarship.id + '</td>';
+                            html += '<td>' + scholarship.scholarship_name.name +
+                                '</td>';
+                            html += '<td>' + scholarship.student_details.name + '</td>';
+                            html += '<td>' + scholarship.year.yearname.year + '</td>';
+                            html += '<td>' + scholarship.department.department.name +
+                                '</td>';
+                            html += '<td>' + scholarship.course.course.name + '</td>';
+                            html += '<td>' + scholarship.division.division.name +
+                                '</td>';
+                            html += '<td>' + scholarship.annual_income + '</td>';
+                            html += '<td>' + scholarship.mark_percentage + '</td>';
+                            html += '<td>' + scholarship.submission_date + '</td>';
+                            html += '<td><span class="badge badge-' + (scholarship
+                                    .status == 'rejected ' ? 'danger ' : 'success ') +
+                                '">' + scholarship.status + '</span></td>';
+                            html += '<td>' + '<a href="/apply-scholarship/' +
+                                scholarship.id +
+                                '/edit" class="btn btn-primary btn-sm btn-block mt-1">Edit</a>' +
+                                '<button data-id="' + scholarship.id +
+                                '" class="btn btn-danger btn-sm btn-block mt-1 delete-scholarship">Delete</button>' +
+                                '</td>';
+                            html += '</tr>';
+                        });
+                        $('#scholarships-list table tbody').html(html);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
             });
         });
 
