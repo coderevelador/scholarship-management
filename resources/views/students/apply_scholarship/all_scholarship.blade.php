@@ -37,7 +37,7 @@
                         <select id="type" name="year" class="form-control">
                             <option value="">All</option>
                             @foreach ($years as $year)
-                                <option value="{{ $year->id }}">{{ $year->year }}</option>
+                                <option value="{{ $year->year }}">{{ $year->year }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -68,7 +68,7 @@
                                 <td>{{ $scholarship->id }}</td>
                                 <td>{{ $scholarship->scholarshipName->name }}</td>
                                 <td>{{ $scholarship->studentDetails->name }}</td>
-                                <td>{{ $scholarship->studentEducationDetails->academicYear->year }}</td>
+                                <td>{{ $scholarship->year }}</td>
                                 <td>{{ $scholarship->studentEducationDetails->departmentName->name }}</td>
                                 <td>{{ $scholarship->studentEducationDetails->course->name }}</td>
                                 <td>{{ $scholarship->studentEducationDetails->division->name }}</td>

@@ -14,7 +14,7 @@ class AddYearToAppliedScholarships extends Migration
     public function up()
     {
         Schema::table('applied_scholarships', function (Blueprint $table) {
-            //
+            $table->year('year')->after('status');
         });
     }
 
@@ -26,7 +26,7 @@ class AddYearToAppliedScholarships extends Migration
     public function down()
     {
         Schema::table('applied_scholarships', function (Blueprint $table) {
-            //
+            $table->dropColumn('year');
         });
     }
 }

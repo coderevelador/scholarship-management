@@ -108,6 +108,7 @@ class ApplyScholarshipController extends Controller
         $appliedScholarship->annual_income = $request->annual_income;
         $appliedScholarship->mark_percentage = $request->mark_percentage;
         $appliedScholarship->submission_date = $appliedScholarship->submission_date;
+        $appliedScholarship->year = $request->year;
         $appliedScholarship->status = $request->status;
 
         if (!empty($request->payment_receipt)) {
@@ -163,6 +164,7 @@ class ApplyScholarshipController extends Controller
         $appliedScholarship->annual_income = $request->annual_income;
         $appliedScholarship->mark_percentage = $request->mark_percentage;
         $appliedScholarship->submission_date = Carbon::now();
+        $appliedScholarship->year = $request->year;
         $appliedScholarship->status = 'pending';
 
         $appliedScholarship->save();
@@ -247,9 +249,7 @@ class ApplyScholarshipController extends Controller
             $query->where('student_id', $request->input('student_name'));
         }
         if ($request->input('year')) {
-            $query->join('scholarship_lists', 'applied_scholarships.scholarship_id', '=', 'scholarship_lists.id')
-                ->join('academic_years', 'scholarship_lists.academic_year_id', '=', 'academic_years.id')
-                ->where('academic_years.id', $request->input('year'));
+            $query->where('year', $request->input('year'));
         }
 
         $query->with('studentDetails', 'scholarshipName', 'year', 'department', 'course', 'division');

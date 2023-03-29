@@ -26,12 +26,7 @@ class AppliedScholarship extends Model
     {
         return $this->belongsTo(ScholarshipList::class, 'scholarship_id', 'id');
     }
-    public function year()
-    {
-        $scholarshipYear = $this->scholarshipName()->with('yearname');
-        
-        return $scholarshipYear;
-    }
+  
 
     public function department()
     {
