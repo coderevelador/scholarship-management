@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AppliedScholarshipAll;
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use App\Models\ScholarshipList;
 use App\Models\AppliedScholarship;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ApplyScholarshipController extends Controller
 {
@@ -252,9 +254,46 @@ class ApplyScholarshipController extends Controller
             $query->where('year', $request->input('year'));
         }
 
-        $query->with('studentDetails', 'scholarshipName', 'year', 'department', 'course', 'division');
+        $query->with('studentDetails', 'scholarshipName', 'department', 'course', 'division');
         $scholarships = $query->get();
 
         return $scholarships;
+    }
+
+    public function exportExcelAll()
+    {
+        $data = $this->scholarshipAllData();
+
+        return Excel::download(new AppliedScholarshipAll($data), 'applied_scholarship_all.xlsx');
+    }
+
+    public function exportCSVAll()
+    {
+        $data = $this->scholarshipAllData();
+
+        return Excel::download(new AppliedScholarshipAll($data), 'applied_scholarship_all.csv', \Maatwebsite\Excel\Excel::CSV, [
+            'Content-Type' => 'text/csv',
+        ]);
+    }
+
+    public function exportPDFAll()
+    {
+        $data = $this->scholarshipAllData();
+
+        return Excel::download(new AppliedScholarshipAll($data), 'applied_scholarship_all.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    }
+
+    protected function scholarshipAllData()
+    {
+        $data = AppliedScholarship::join('scholarship_lists', 'applied_scholarships.scholarship_id', '=', 'scholarship_lists.id')
+            ->join('users', 'applied_scholarships.student_id', '=', 'users.id')
+            ->join('academic_years', 'scholarship_lists.academic_year_id', '=', 'academic_years.id')
+            ->join('departments', 'scholarship_lists.department_id', '=', 'departments.id')
+            ->join('courses', 'scholarship_lists.course_id', '=', 'courses.id')
+            ->join('divisions', 'scholarship_lists.division_id', '=', 'divisions.id')
+            ->select('applied_scholarships.id AS id', 'scholarship_lists.name AS scholarship_name', 'academic_years.year AS year', 'users.name AS student_name',  'academic_years.year AS year', 'departments.name AS department', 'courses.name AS course', 'divisions.name AS division', 'applied_scholarships.annual_income', 'applied_scholarships.mark_percentage', 'applied_scholarships.submission_date', 'applied_scholarships.status',)
+            ->get();
+
+        return $data;
     }
 }

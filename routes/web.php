@@ -21,6 +21,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\EligibilityCheckController;
 use App\Http\Controllers\ScholarshipListController;
 use App\Http\Controllers\StudentEducationalProfileController;
+use App\Models\AppliedScholarship;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,6 +107,11 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
 
     Route::get('/applied-scholarship/all', [ApplyScholarshipController::class, 'AppliedScholarshipAll'])->name('apply.scholarship.all');
     Route::post('/applied-scholarship/filter', [ApplyScholarshipController::class, 'AppliedScholarshipFilter'])->name('apply.scholarship.filter');
+
+    // All scholarship export
+    Route::get('/applied-scholarship/export/excel', [ApplyScholarshipController::class, 'exportExcelAll'])->name('scholarshiplistall.export.excel');
+    Route::get('/applied-scholarship/export/csv', [ApplyScholarshipController::class, 'exportCSVAll'])->name('scholarshiplistall.export.csv');
+    Route::get('/applied-scholarship/export/pdf', [ApplyScholarshipController::class, 'exportPDFAll'])->name('scholarshiplistall.export.pdf');
 });
 
 // Guest
