@@ -58,10 +58,11 @@
                             <th>Annual Income</th>
                             <th>Mark Percentage</th>
                             <th>Eligible Amount</th>
+                            <th>Approved Amount</th>
                             <th>Submission Date</th>
                             <th>Status</th>
                             <th>Actions</th>
-                        </tr>   
+                        </tr>
                     </thead>
                     <tbody>
                         @foreach ($appliedScholarship as $scholarship)
@@ -76,6 +77,8 @@
                                 <td>{{ $scholarship->annual_income }}</td>
                                 <td>{{ $scholarship->mark_percentage }}</td>
                                 <td>{{ $scholarship->eligibilityAmount() }}</td>
+                                <td><span class="badge badge-light"
+                                        style="color:black">{{ $scholarship->approved_amount }}</span></td>
                                 <td>{{ $scholarship->submission_date }}</td>
                                 <td> <span
                                         class="badge badge-{{ $scholarship->status == 'rejected' ? 'danger' : 'success' }}">{{ $scholarship->status }}</span>
@@ -127,12 +130,9 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" x-placement="bottom-start"
                 style="position: absolute; transform: translate3d(0px, 42px, 0px); top: 0px; left: 0px; will-change: transform; background:#04c7e0; ">
-                <a class="dropdown-item "
-                    href="{{ route('scholarshiplistall.export.excel') }}">EXCEL</a>
-                <a class="dropdown-item"
-                    href="{{ route('scholarshiplistall.export.csv') }}">CSV</a>
-                <a class="dropdown-item"
-                    href="{{ route('scholarshiplistall.export.pdf') }}">PDF</a>
+                <a class="dropdown-item " href="{{ route('scholarshiplistall.export.excel') }}">EXCEL</a>
+                <a class="dropdown-item" href="{{ route('scholarshiplistall.export.csv') }}">CSV</a>
+                <a class="dropdown-item" href="{{ route('scholarshiplistall.export.pdf') }}">PDF</a>
             </div>
         </div>
     </div>

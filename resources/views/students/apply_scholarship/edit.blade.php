@@ -89,6 +89,26 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6">
+                            <label for="name" class="form-label">Eligible Amount</label>
+                            <input type="text" class="form-control" name="eligible_amount"
+                                value="{{ $appliedScholarship->eligibilityAmount() }}" readonly>
+                            @if ($errors->has('eligible_amount'))
+                                <span class="text-danger text-left">{{ $errors->first('eligible_amount') }}</span>
+                            @endif
+                        </div>
+                        <div class="col-md-6">
+                            <label for="" class="form-label">Approved Amount</label>
+                            <input type="text" class="form-control" name="approved_amount"
+                                value="{{ $appliedScholarship->approved_amount }}" required>
+                            @if ($errors->has('approved_amount'))
+                                <span class="text-danger text-left">{{ $errors->first('approved_amount') }}</span>
+                            @endif
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
                             <label for="name" class="form-label">Status</label>
                             <select name="status" class="form-control" id="status">
                                 <option value="pending" {{ $appliedScholarship->status == 'pending' ? 'selected' : '' }}>
@@ -97,7 +117,8 @@
                                     {{ $appliedScholarship->status == 'inprogress' ? 'selected' : '' }}>
                                     In
                                     Progress</option>
-                                <option value="approved" {{ $appliedScholarship->status == 'approved' ? 'selected' : '' }}>
+                                <option value="approved"
+                                    {{ $appliedScholarship->status == 'approved' ? 'selected' : '' }}>
                                     Approved</option>
                                 <option value="payment_done"
                                     {{ $appliedScholarship->status == 'payment_done' ? 'selected' : '' }}>Payment Deposited

@@ -20,6 +20,8 @@
                         <th>Division Name</th>
                         <th>Annual Income</th>
                         <th>Mark Percentage</th>
+                        <th>Eligible Amount</th>
+                        <th>Approved Amount</th>
                         <th>Submission Date</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -38,6 +40,9 @@
                             <td>{{ $student->studentEducationDetails->division->name }}</td>
                             <td>{{ $student->annual_income }}</td>
                             <td>{{ $student->mark_percentage }}</td>
+                            <td>{{ $student->eligibilityAmount() }}</td>
+                            <td><span class="badge badge-light"
+                                    style="color:black">{{ $student->approved_amount }}</span></td>
                             <td>{{ $student->submission_date }}</td>
                             <td> <span
                                     class="badge badge-{{ $student->status == 'rejected' ? 'danger' : 'success' }}">{{ $student->status }}</span>

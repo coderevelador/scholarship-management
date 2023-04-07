@@ -112,6 +112,7 @@ class ApplyScholarshipController extends Controller
         $appliedScholarship->submission_date = $appliedScholarship->submission_date;
         $appliedScholarship->year = $request->year;
         $appliedScholarship->status = $request->status;
+        $appliedScholarship->approved_amount = $request->approved_amount;
 
         if (!empty($request->payment_receipt)) {
             if (!empty($appliedScholarship->payment_receipt)) {
@@ -236,10 +237,6 @@ class ApplyScholarshipController extends Controller
         $scholarshipName = ScholarshipList::all();
         $studentName = User::role('Student')->get();
         $years = AcademicYear::all();
-
-    //  dd($appliedScholarship);
-
-
 
         return view('students.apply_scholarship.all_scholarship', compact('appliedScholarship', 'scholarshipName', 'studentName', 'years'));
     }
