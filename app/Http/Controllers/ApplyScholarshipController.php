@@ -237,6 +237,10 @@ class ApplyScholarshipController extends Controller
         $studentName = User::role('Student')->get();
         $years = AcademicYear::all();
 
+    //  dd($appliedScholarship);
+
+
+
         return view('students.apply_scholarship.all_scholarship', compact('appliedScholarship', 'scholarshipName', 'studentName', 'years'));
     }
 

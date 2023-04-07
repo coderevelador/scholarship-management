@@ -57,10 +57,11 @@
                             <th>Division Name</th>
                             <th>Annual Income</th>
                             <th>Mark Percentage</th>
+                            <th>Eligible Amount</th>
                             <th>Submission Date</th>
                             <th>Status</th>
                             <th>Actions</th>
-                        </tr>
+                        </tr>   
                     </thead>
                     <tbody>
                         @foreach ($appliedScholarship as $scholarship)
@@ -74,6 +75,7 @@
                                 <td>{{ $scholarship->studentEducationDetails->division->name }}</td>
                                 <td>{{ $scholarship->annual_income }}</td>
                                 <td>{{ $scholarship->mark_percentage }}</td>
+                                <td>{{ $scholarship->eligibilityAmount() }}</td>
                                 <td>{{ $scholarship->submission_date }}</td>
                                 <td> <span
                                         class="badge badge-{{ $scholarship->status == 'rejected' ? 'danger' : 'success' }}">{{ $scholarship->status }}</span>

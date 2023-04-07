@@ -91,6 +91,77 @@
                     @canany(['academic-year.index', 'school.index', 'department.index', 'course.index', 'division.index',
                         'eligibility.index'])
                         <li class="section-title">
+                            Reports
+                        </li>
+
+                        <li class="has-sub">
+                            <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
+                                data-target="#configuration" aria-expanded="false" aria-controls="email">
+                                <i class="mdi mdi-file-excel"></i>
+                                <span class="nav-text">Reports</span> <b class="caret"></b>
+                            </a>
+                        @endcanany
+                        <ul class="collapse" id="configuration" data-parent="#sidebar-menu">
+                            <div class="sub-menu">
+                                @canany(['academic-year.index', 'academic-year.create', 'academic-year.edit',
+                                    'academic-year.destroy', 'academic-year.update', 'academic-year.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('academic-year.index') }}">
+                                            <span class="nav-text">Academic Year</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+                                @canany(['school.index', 'school.create', 'school.edit', 'school.destroy', 'school.update',
+                                    'school.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('school.index') }}">
+                                            <span class="nav-text">School/College</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+
+                                @canany(['department.index', 'department.create', 'department.edit', 'department.destroy',
+                                    'department.update', 'department.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('department.index') }}">
+                                            <span class="nav-text">Department</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+
+                                @canany(['course.index', 'course.create', 'course.edit', 'course.destroy', 'course.update',
+                                    'course.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('course.index') }}">
+                                            <span class="nav-text">Course/Class</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+
+                                @canany(['division.index', 'division.create', 'division.edit', 'division.destroy',
+                                    'division.update', 'division.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('division.index') }}">
+                                            <span class="nav-text">Division/Section</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+                                @canany(['eligibility.index', 'eligibility.create', 'eligibility.edit',
+                                    'eligibility.destroy', 'eligibility.update', 'eligibility.store'])
+                                    <li>
+                                        <a class="sidenav-item-link" href="{{ route('eligibility.index') }}">
+                                            <span class="nav-text">Eligibility Checker</span>
+                                        </a>
+                                    </li>
+                                @endcanany
+
+                            </div>
+                        </ul>
+                    </li>
+
+                    @canany(['academic-year.index', 'school.index', 'department.index', 'course.index', 'division.index',
+                        'eligibility.index'])
+                        <li class="section-title">
                             Basic Configuration
                         </li>
 
