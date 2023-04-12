@@ -12330,7 +12330,7 @@ button {
     background-color: transparent;
     border-bottom: none;
     flex-wrap: wrap;
-    text-transform: capitalize;
+  
 }
 .card-default .card-header h2 {
     font-size: 1.375rem;

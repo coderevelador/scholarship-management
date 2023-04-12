@@ -1,3 +1,21 @@
+@php
+    use App\Models\GeneralSettings;
+    
+    $app_name = GeneralSettings::pluck('app_name');
+    
+    $pageName = ucfirst(
+        str_replace(
+            '-',
+            ' ',
+            request()
+                ->route()
+                ->getName(),
+        ),
+    );
+    
+    $pageName = explode('.', $pageName)[0];
+    
+@endphp
 <html lang="en">
 
 <head>
@@ -7,7 +25,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>Mono - Responsive Admin & Dashboard Template</title>
+        <title> @isset($pageName)
+                {{ $pageName }}
+            @endisset - {{ $app_name[0] }}</title>
 
         <!-- GOOGLE FONTS -->
         <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Roboto" rel="stylesheet">
@@ -17,7 +37,7 @@
         <!-- PLUGINS CSS STYLE -->
         <link href="{{ asset('plugins/nprogress/nprogress.css') }}" rel="stylesheet" />
 
-        <!-- MONO CSS -->
+        <!--  CSS -->
         <link id="main-css-href" rel="stylesheet" href="{{ asset('css/style.css') }}" />
 
 
@@ -26,14 +46,7 @@
         <!-- FAVICON -->
         <link href="{{ asset('images/favicon.png') }}" rel="shortcut icon" />
 
-        <!--
-    HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
-  -->
-        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-        <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+
         <script src="plugins/nprogress/nprogress.js"></script>
     </head>
 
@@ -47,10 +60,11 @@
                     <div class="card card-default mb-0">
                         <div class="card-header pb-0">
                             <div class="app-brand w-100 d-flex justify-content-center border-bottom-0">
-                                <a class="w-auto pl-0" href="/index.html">
-                                    <img src="images/logo.png" alt="Mono">
-                                    <span class="brand-name text-dark">MONO</span>
-                                </a>
+                                <img src="{{ asset('images/logo.png') }}" alt="Scholarship" width="100px">
+                            </div>
+                            <div class="app-brand w-100 d-flex justify-content-center border-bottom-0">
+                                <span class="brand-name text-dark"
+                                    style="text-align: center;">{{ $app_name[0] }}</span>
                             </div>
                         </div>
                         <div class="card-body px-5 pb-5 pt-0">

@@ -1,3 +1,21 @@
+@php
+    use App\Models\GeneralSettings;
+    
+    $app_name = GeneralSettings::pluck('app_name');
+    
+    $pageName = ucfirst(
+        str_replace(
+            '-',
+            ' ',
+            request()
+                ->route()
+                ->getName(),
+        ),
+    );
+    
+    $pageName = explode('.', $pageName)[0];
+    
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +25,11 @@
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Sansera Scholarship Management</title>
+        <title>
+            @isset($pageName)
+            {{$pageName}}
+            @endisset - {{$app_name[0]}}
+        </title>
         <!-- GOOGLE FONTS -->
         <link href="https://fonts.googleapis.com/css?family=Karla:400,700|Roboto" rel="stylesheet">
         <!-- MONO CSS -->
@@ -31,16 +53,18 @@
                 <div class="col-lg-6 col-md-10">
                     <div class="card card-default mb-0">
                         <div class="card-header pb-0">
+
                             <div class="app-brand w-100 d-flex justify-content-center border-bottom-0">
-                                <a class="w-auto pl-0" href="/index.html">
-                                    <img src="images/logo.png" alt="Mono">
-                                    <span class="brand-name text-dark">Sansera</span>
-                                </a>
+                                <img src="{{ asset('images/logo.png') }}" alt="Scholarship" width="100px">
+                            </div>
+                            <div class="app-brand w-100 d-flex justify-content-center border-bottom-0">
+                                <span class="brand-name text-dark"
+                                    style="text-align: center;">{{ $app_name[0] }}</span>
                             </div>
                         </div>
                         <div class="card-body px-5 pb-5 pt-0">
 
-                            <h4 class="text-dark mb-6 text-center">Sign in for free</h4>
+                            <h4 class="text-dark mb-6 text-center">Sign in</h4>
 
                             <form method="POST" action="{{ route('login') }}">
                                 @csrf

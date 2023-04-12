@@ -19,6 +19,8 @@ use App\Http\Controllers\students\StudentsController;
 use App\Http\Controllers\students\StudentRegistration;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\EligibilityCheckController;
+use App\Http\Controllers\GeneralSettings;
+use App\Http\Controllers\GeneralSettingsController;
 use App\Http\Controllers\ScholarshipListController;
 use App\Http\Controllers\StudentEducationalProfileController;
 use App\Models\AppliedScholarship;
@@ -112,6 +114,11 @@ Route::group(['middleware' => ['auth', 'permission']], function () {
     Route::get('/applied-scholarship/export/excel', [ApplyScholarshipController::class, 'exportExcelAll'])->name('scholarshiplistall.export.excel');
     Route::get('/applied-scholarship/export/csv', [ApplyScholarshipController::class, 'exportCSVAll'])->name('scholarshiplistall.export.csv');
     Route::get('/applied-scholarship/export/pdf', [ApplyScholarshipController::class, 'exportPDFAll'])->name('scholarshiplistall.export.pdf');
+
+
+    //    General Settings
+    Route::resource('general-settings', GeneralSettingsController::class);
+    Route::post('/general-settings/update-details', [GeneralSettingsController::class,'UpdateDetails'])->name('general.update.details');
 });
 
 // Guest
